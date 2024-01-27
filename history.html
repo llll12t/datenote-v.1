@@ -74,9 +74,8 @@
     const itemsPerPage = 20; // Number of items to display per page
     let currentPage = 1;
 
-    document.addEventListener('DOMContentLoaded', (event) => {
     window.onload = function () {
-        initializeLiff();
+        initializeLiff(),getUserProfile();
     };
 
     async function initializeLiff() {
@@ -88,22 +87,19 @@
             liff.login();
         }
     }
-
     async function getUserProfile() {
-        try {
-            const profile = await liff.getProfile();
-            const userIdInput = document.getElementById('userId');
+    try {
+        const profile = await liff.getProfile();
+        document.getElementById('userId').value = profile.userId;
 
-            if (userIdInput) {
-                userIdInput.value = profile.userId;
-                searchData();
-            } else {
-                console.error('Error: Element with ID "userId" not found.');
-            }
-        } catch (error) {
-            console.error('Error getting profile data:', error);
-        }
+        // Trigger search when user ID is retrieved
+        fetchData(); // Fetch data from the Google Sheets
+        searchData(); // Perform initial search and display data
+    } catch (error) {
+        console.error('Error getting profile data:', error);
     }
+}
+
     async function fetchData() {
         try {
             const values = await fetchValues();
