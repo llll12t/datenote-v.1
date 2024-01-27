@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการบันทึก2</title>
+    <title>ประวัติการบันทึก</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 
 <style>
+    body {
+        font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+
     input{
         border: 1px solid white;
     }
@@ -46,6 +54,8 @@
 
 <script>
   let inputEventCounter = 0;
+  let currentPage = 1;
+    const rowsPerPage = 20;
 
   window.onload = function () {
       initializeLiff();
@@ -95,31 +105,56 @@ async function fetchValues() {
 }
 
 function buildTable(values) {
-    const table = document.getElementById('data-table');
-    table.innerHTML = ''; // Clear previous data
+        const table = document.getElementById('data-table');
+        table.innerHTML = ''; // Clear previous data
 
-    values.forEach((row, rowIndex) => {
-        const tr = document.createElement('tr');
-        row.forEach((cell, cellIndex) => {
-            const td = document.createElement('td');
-            td.textContent = cell;
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
 
-            // Hide specific columns
-            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-            if (hiddenColumns.includes(cellIndex)) {
-                td.style.display = 'none';
+        values.slice(startIndex, endIndex).forEach((row, rowIndex) => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, cellIndex) => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+
+                // Hide specific columns
+                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+                if (hiddenColumns.includes(cellIndex)) {
+                    td.style.display = 'none';
+                }
+
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+
+            // Hide the seventh row (index 6)
+            if (rowIndex === 6) {
+                tr.style.display = 'none';
             }
-
-            tr.appendChild(td);
         });
-        table.appendChild(tr);
+    }
 
-        // Hide the seventh row (index 6)
-        if (rowIndex === 6) {
-            tr.style.display = 'none';
+    function updatePagination() {
+        const totalPages = Math.ceil(values.length / rowsPerPage);
+        const paginationInfo = document.getElementById('pagination-info');
+        paginationInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    // Add these functions to handle pagination controls
+    function nextPage() {
+        const totalPages = Math.ceil(values.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchData();
         }
-    });
-}
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchData();
+        }
+    }
 
   // Reset the counter after every third input event
   document.getElementById('userId').addEventListener('input', () => {
@@ -173,13 +208,18 @@ function buildTable(values) {
 
 <body>
     <div class="card">
-    <input type="text" id="userId" name="userId"   style="color: black;" />
+    <input type="text" id="userId" name="userId"  style="color: rgb(0, 0, 0);" />
     <br>
     <label for="columnAData">ชื่อพนักงาน </label>
     <input type="text" id="columnAData" name="columnAData" />
     <br>
     <label for="columnBData">รหัสพนักงาน </label>
     <input type="text" class="form-control" id="columnBData" name="columnBData" />
+    </div>
+    <div>
+        <button onclick="prevPage()">Previous Page</button>
+        <span id="pagination-info"></span>
+        <button onclick="nextPage()">Next Page</button>
     </div>
     <br>
 	<table class="headertable">
@@ -190,8 +230,8 @@ function buildTable(values) {
 	</table>
     <table id="data-table"></table>
     <script>
-        // Replace YOUR_API_KEY with your actual API key
-        const apiKey = 'AIzaSyB89WSrfZKA_uP9UslXs8Bo7y90PYzbpD4';
+         // Replace YOUR_API_KEY with your actual API key
+         const apiKey = 'AIzaSyB89WSrfZKA_uP9UslXs8Bo7y90PYzbpD4';
 
         // Replace YOUR_SPREADSHEET_ID with your actual Google Sheets ID
         const spreadsheetId = '1DkCnmGVYMjf66tarSX1EA5zm1mDL_0ACYNx2AAa5J6g';
