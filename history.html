@@ -237,7 +237,7 @@ function buildTable(tableId, values) {
         }
     });
     
-    function searchData() {
+function searchData() {
     console.log('Search function called');
 
     const searchInput = document.getElementById('userId');
@@ -283,11 +283,18 @@ function buildTable(tableId, values) {
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
 
-    // Build tables with filtered data
-    buildTable('data-table', filteredData);
-    buildAdditionalTable('additional-table', filteredData);
+    // Check if there are any search results
+    if (filteredData.length > 0) {
+        // Build tables with filtered data
+        buildTable('data-table', filteredData);
+        buildAdditionalTable('additional-table', filteredData);
+    } else {
+        // No search results, display original data in both tables
+        fetchData(); // Fetch data from the Google Sheets
+        buildTable('data-table', /* original data array */); // Replace with actual original data
+        buildAdditionalTable('additional-table', /* original data array */); // Replace with actual original data
+    }
 }
-
 
 
 document.getElementById('userId').addEventListener('input', () => {
