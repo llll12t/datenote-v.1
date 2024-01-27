@@ -4,17 +4,168 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-in-out</title>
+    <title>บันทึกเวลางาน</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    
-    <script>
+    <style>
+        body{
+            font-family: 'Noto Sans Thai', sans-serif;        }
+        .input-group{
+            justify-content: center;
+        }
+        #time{
+            font-size: 2rem;
+        }
+        #date{
+            font-size: 1rem;
+        }
+        .banner{
+            text-align: right;
+            color: #1F3D77;
+            padding: 20px;
+            background: #ffffff;
+            font-weight: bold;
+            margin-top: 10px;
+            border: 1px solid #1F3D77;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-blue{
+            background-color: #1F3D77;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 120px;
+        }
+        .btn-green{
+            background-color: #179824;
+            color: white;
+            padding: 10px;
+            width: 140px;
+            border-radius: 50px;
+        }
+        .btn-yellow{
+            background-color: #ffc107;
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            width: 140px;
+            border-radius: 50px;
+        }
+        .btn-red{
+            background-color: #C70B0B;
+            color: white;
+            padding: 15px;
+            width: 120px;
+        }
+        .btn-gray{
+            background-color: #b3b3b3;
+            color: white;
+            padding: 15px;
+            width: 120px;
+        }
+        .btn-map{
+            background-color: #1F3D77;
+            color: white;
+            padding: 15px;
+        }
+
+        .switch-field {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .switch-field input {
+            position: absolute !important;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            width: 1px;
+            border: 0;
+            overflow: hidden;
+        }
+
+        .switch-field label {
+            background-color: #EAF0FE;
+            color: #000;
+            line-height: 2;
+            text-align: center;
+            padding: 5px 15px;
+            font-weight: bold;
+            transition: all 0.1s ease-in-out;
+            border: 1px solid #EAF0FE;
+            border-radius:5px;
+
+        }
+        .switch-field label:hover {
+            cursor: pointer;
+        }
+
+        .switch-field input:checked+label {
+            background-color: #1F3D77;
+            color: rgb(255, 255, 255);
+            box-shadow: none;
+            font-weight: bold;
+            border: 1px solid #EAF0FE;
+        }
+        .switch-field label:first-of-type {
+            border-radius:5px;}
+
+        .switch-field label:last-of-type {
+            border-radius:5px;
+        }
+
+        .form-control {
+            padding: 0.5rem 0.75rem !important;
+            border: 1px solid #1F3D77;
+        }
+        
+        .input-group{
+            display: flex;
+            justify-content: space-between;
+        }
+      
+        .input-icons span {
+            position: absolute;
+            padding: 10px 15px;
+            color: #1F3D77;
+        }
+        .input-icons {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .input-field {
+            width: 100%;
+            text-align: left;
+            border: 1px solid #EAF0FE;
+            border-radius: 5px;
+            padding:10px 50px ;
+            
+        }
+        .card{
+            border: 1px solid #EAF0FE;
+        }
+        #locationInfo{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .img-time{
+            width: 100%;
+        }
+		 td {
+            width: 100%;
+            max-width: 100px;
+            color:white;
+    }
+</style>
+<script>
     window.onload = function () {
         initializeLiff(),getUserProfile();
     };
@@ -84,9 +235,7 @@
                 <input type="hidden" id="jobInput" name="jobInput" required>
                 <textarea class="form-control" placeholder="Note" id="noteInput"></textarea><br>
             </div>
-		<div class="footerbar">
             <button class="btn btn-blue mt-3" onclick="nextStep()">ถัดไป</button>
-		</div>
             <table id="data-table" style="color: black; position: absolute;z-index: -9999;">
             <input type="text" id="userId" name="userId" oninput="searchData()" style="color:#fff; border: 1px solid #fff; position: absolute; z-index: -99;"/>
             <input type="text" id="columnAData" name="columnAData" style="display: none;"/>    
@@ -106,8 +255,7 @@
         
         <div class="input-group mb-4">
             <button class="btn btn-gray m-2" onclick="prevStep()">กลับ</button>
-            <button class="btn btn-blue m-2" onclick="checkPictureAndNextStep()">ถัดไป</button>
-
+            <button class="btn btn-blue m-2" onclick="nextStep()">ถัดไป</button>
         </div>
     </div>
         <div id="step3" class="card p-4" style="display: none;text-align: center;">
@@ -141,7 +289,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-        let url = "https://script.google.com/macros/s/AKfycbxPE9ha7HARisA6N6E_0ZspliLkP9UPyDU26vj7_sNo45nMCbfVJOUgGkj8BEhYlB5w/exec";
+        let url = "https://script.google.com/macros/s/AKfycbx4-TUM5_e_wvX5jWBA6wqrtOxZJgnOH55_qxmVIhP8cgL-44y2SAnY4VkfF3hC1p3H/exec";
         let video = document.getElementById('video');
         let canvas = document.getElementById('canvas');
         let columnBData = document.querySelector("#columnBData");
@@ -222,24 +370,8 @@
             });
             }
         });
-	 function checkPictureAndNextStep() {
-        // Check if a picture has been taken
-        const capturedImage = document.getElementById('preview').src;
 
-        if (!capturedImage || capturedImage.includes('No-Image-Placeholder')) {
-            // Show an alert if no picture has been taken
-            Swal.fire({
-                title: 'แจ้งเตือน!',
-                text: 'กรุณาถ่ายรูปก่อนที่จะไปยังขั้นตอนถัดไป',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-            });
-        } else {
-            // Proceed to the next step if a picture has been taken
-            nextStep();
-        }
-    }
-       function submitForm() {
+        function submitForm() {
     // Check if required fields are filled
     if (!columnBData.value || !roleInput.value || !jobInput.value || !latitudeInput.value || !longitudeInput.value) {
         Swal.fire({
@@ -264,17 +396,6 @@
             // Disable the submit button to prevent multiple submissions
             document.getElementById('submitButton').disabled = true;
 
-            // Display uploading message
-            Swal.fire({
-                title: 'กำลังบันทึกข้อมูล',
-                text: 'กรุณารอสักครู่...',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
             let spt = preview.src.split("base64,")[1];
             let obj = {
                 base64: spt,
@@ -296,10 +417,6 @@
             })
             .then(response => response.text())
             .then(data => {
-                // Close the uploading message
-                Swal.close();
-
-                // Display success message
                 Swal.fire({
                     title: 'สำเร็จ!',
                     text: 'บันทึกข้อมูลของคุณเรียบร้อย!',
@@ -307,15 +424,11 @@
                     confirmButtonText: 'ปิด',
                 }).then(() => {
                     // Close LIFF (Line Front-end Framework)
-                    sendFlexMessage();
+                    sendFlexMessage(); // Add this line to send Flex Message and close LIFF
                     console.log(data);
                 });
             })
             .catch(error => {
-                // Close the uploading message
-                Swal.close();
-
-                // Display error message
                 Swal.fire({
                     title: 'Error!',
                     text: 'Form submission failed. Please try again.',
@@ -332,9 +445,8 @@
     });
 }
 
-
         </script>
-      <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
         <script>
             async function initializeLiff() {
             await liff.init({ liffId: '2002290922-O7vx3Jj7' });
@@ -349,36 +461,36 @@
         async function sendFlexMessage() {
       const flexMessage = {
            type: 'flex',
-		altText: 'จดบันทึกเวลางาน',
-		contents: {
-			type: 'bubble',
-			direction: 'ltr',
-			body: {
-				type: 'box',
-				layout: 'vertical',
-				spacing: 'md',
-				contents: [
-					{
+				altText: 'จดบันทึกเวลางาน',
+				contents: {
+					type: 'bubble',
+					direction: 'ltr',
+					body: {
+						type: 'box',
+						layout: 'vertical',
+						spacing: 'md',
+						contents: [
+							{
                           type: 'box',
                           layout: 'horizontal',
                           contents: [
                               {
-				type: 'text',
-				text: 'บันทึกเวลางาน',
-				weight: 'bold',
-				size: 'md',
-				align: 'start',
-				margin: 'sm',
-				contents: [],
+                                  type: 'text',
+                                  text: 'บันทึกเวลางาน',
+                                  weight: 'bold',
+                                  size: 'md',
+                                  align: 'start',
+                                  margin: 'sm',
+                                  contents: [],
                               },
                               {
-				type: 'text',
-				text: ` ${jobInput.value}`,
-				weight: 'bold',
-				size: 'md',
-				color: '#0D9608FF',
-				align: 'end',
-				contents: [],
+                                  type: 'text',
+                                  text: ` ${jobInput.value}`,
+                                  weight: 'bold',
+                                  size: 'md',
+                                  color: '#0D9608FF',
+                                  align: 'end',
+                                  contents: [],
                               },
                           ],
                       },
@@ -520,9 +632,12 @@
       liff.closeWindow(); // Close the LIFF window
     }
     </script>
+
+
+
+
 <script>
-       
-            function updateDateTime() {
+        function updateDateTime() {
                 const dateElement = document.getElementById('date');
                 const timeElement = document.getElementById('time');
                 const now = new Date();
@@ -561,15 +676,7 @@
                     document.getElementById('jobInput').value = this.value;
                 });
             });
-            function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(displayLocation);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function displayLocation(position) {
+             function displayLocation(position) {
             const latitudeElement = document.getElementById("latitude");
             const longitudeElement = document.getElementById("longitude");
             const fullAddressElement = document.getElementById("fullAddress");
@@ -620,7 +727,6 @@
                 alert("Geolocation is not supported by this browser.");
             }
         }
-
         </script>
         <script>
             function getCurrentTimeInBangkok() {
@@ -677,37 +783,31 @@
     const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet2Id}/values/MEMBER?key=${apimapKey}`;
 
     // Function to fetch data from Google Sheets API
-	async function fetchData() {
-	try {
-	const response = await fetch(apiUrl);
-	const data = await response.json();
-	
-	// Extract values from the response
-	const values = data.values;
-	
-	// Build the table HTML
-	const table = document.getElementById('data-table');
-	table.innerHTML = ''; // Clear previous data
-	
-	// Limit the loop to 10 rows
-	const rowsToDisplay = Math.min(values.length, 2);
-	
-	for (let i = 0; i < rowsToDisplay; i++) {
-	    const tr = document.createElement('tr');
-	    const row = values[i];
-	
-	    row.forEach(cell => {
-		const td = document.createElement('td');
-		td.textContent = cell;
-		tr.appendChild(td);
-	    });
-	
-	    table.appendChild(tr);
-	}
-	} catch (error) {
-	console.error('Error fetching data:', error);
-	}
-	}
+    async function fetchData() {
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // Extract values from the response
+            const values = data.values;
+
+            // Build the table HTML
+            const table = document.getElementById('data-table');
+            table.innerHTML = ''; // Clear previous data
+
+            values.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     // Call the fetchData function when the page loads
     fetchData();
