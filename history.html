@@ -241,7 +241,7 @@ function searchData() {
     console.log('Search function called');
 
     const searchInput = document.getElementById('userId');
-    const filter = searchInput.value.toUpperCase();
+    const filter = searchInput.value.trim().toUpperCase();
     console.log('Filter:', filter);
 
     const table = document.getElementById('data-table');
@@ -283,16 +283,17 @@ function searchData() {
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
 
-    // Check if there are any search results
-    if (filteredData.length > 0) {
-        // Build tables with filtered data
+    // Check if there is a search input
+    if (filter.length > 0) {
+        // Display filtered data in both tables
         buildTable('data-table', filteredData);
         buildAdditionalTable('additional-table', filteredData);
     } else {
-        // No search results, display original data in both tables
+        // No search input, display original data in both tables
         fetchData(); // Fetch data from the Google Sheets
-        buildTable('data-table', /* original data array */); // Replace with actual original data
-        buildAdditionalTable('additional-table', /* original data array */); // Replace with actual original data
+        // You may need to replace the following lines with actual original data
+        buildTable('data-table', /* original data array */);
+        buildAdditionalTable('additional-table', /* original data array */);
     }
 }
 
