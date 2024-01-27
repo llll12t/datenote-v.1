@@ -50,6 +50,10 @@
     const itemsPerPage = 20;
     let currentPage = 1;
 
+  window.onload = function () {
+      initializeLiff(),getUserProfile();
+  };
+
     async function initializeLiff() {
         await liff.init({ liffId: '2002290922-yOznjZkQ' });
 
