@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     
-<script>
+    <script>
     window.onload = function () {
         initializeLiff(),getUserProfile();
     };
@@ -349,36 +349,36 @@
         async function sendFlexMessage() {
       const flexMessage = {
            type: 'flex',
-				altText: 'จดบันทึกเวลางาน',
-				contents: {
-					type: 'bubble',
-					direction: 'ltr',
-					body: {
-						type: 'box',
-						layout: 'vertical',
-						spacing: 'md',
-						contents: [
-							{
+		altText: 'จดบันทึกเวลางาน',
+		contents: {
+			type: 'bubble',
+			direction: 'ltr',
+			body: {
+				type: 'box',
+				layout: 'vertical',
+				spacing: 'md',
+				contents: [
+					{
                           type: 'box',
                           layout: 'horizontal',
                           contents: [
                               {
-                                  type: 'text',
-                                  text: 'บันทึกเวลางาน',
-                                  weight: 'bold',
-                                  size: 'md',
-                                  align: 'start',
-                                  margin: 'sm',
-                                  contents: [],
+				type: 'text',
+				text: 'บันทึกเวลางาน',
+				weight: 'bold',
+				size: 'md',
+				align: 'start',
+				margin: 'sm',
+				contents: [],
                               },
                               {
-                                  type: 'text',
-                                  text: ` ${jobInput.value}`,
-                                  weight: 'bold',
-                                  size: 'md',
-                                  color: '#0D9608FF',
-                                  align: 'end',
-                                  contents: [],
+				type: 'text',
+				text: ` ${jobInput.value}`,
+				weight: 'bold',
+				size: 'md',
+				color: '#0D9608FF',
+				align: 'end',
+				contents: [],
                               },
                           ],
                       },
