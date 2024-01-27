@@ -145,13 +145,16 @@
     }
 
     // Add these functions to handle pagination controls
-    function nextPage() {
-        const totalPages = Math.ceil(values.length / rowsPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            fetchData();
-        }
+   function nextPage() {
+    const totalPages = Math.ceil(values.length / rowsPerPage);
+    const startIndex = currentPage * rowsPerPage;
+
+    if (startIndex < values.length) {
+        currentPage++;
+        fetchData();
     }
+}
+
 
     function prevPage() {
         if (currentPage > 1) {
