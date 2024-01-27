@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการบันทึกห</title>
+    <title>ประวัติการบันทึก</title>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 
@@ -237,50 +237,7 @@ function buildTable(tableId, values) {
         }
     });
 
-    // Function to build the main data table
-function buildTable(tableId, values) {
-    const table = document.getElementById(tableId);
-    table.innerHTML = '';
-
-    // Calculate start and end index for the current page
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    const reversedValues = values.slice().reverse();
-
-    reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
-        const tr = document.createElement('tr');
-
-        // Display only columns C and D
-        for (let cellIndex = 2; cellIndex <= 3; cellIndex++) {
-            const td = document.createElement('td');
-            td.textContent = row[cellIndex];
-
-            // You can apply additional styling or modifications here if needed
-
-            tr.appendChild(td);
-        }
-
-        // Set initial visibility flag to false
-        let shouldDisplay = false;
-
-        // Hide the seventh row (index 6) initially
-        if (rowIndex === 6) {
-            tr.style.display = 'none';
-        } else {
-            // If not the seventh row, set the visibility flag to true
-            shouldDisplay = true;
-        }
-
-        // Apply visibility to the row
-        tr.style.display = shouldDisplay ? '' : 'none';
-
-        table.appendChild(tr);
-    });
-
-    updatePaginationControls(values.length);
-}
-
+    
     
     function searchData() {
     console.log('Search function called');
