@@ -74,8 +74,9 @@
     const itemsPerPage = 20; // Number of items to display per page
     let currentPage = 1;
 
+    document.addEventListener('DOMContentLoaded', (event) => {
     window.onload = function () {
-        initializeLiff(),getUserProfile();
+        initializeLiff();
     };
 
     async function initializeLiff() {
@@ -87,17 +88,22 @@
             liff.login();
         }
     }
+
     async function getUserProfile() {
         try {
             const profile = await liff.getProfile();
-            document.getElementById('userId').value = profile.userId;
-            // Trigger search when user ID is retrieved
-            searchData();
+            const userIdInput = document.getElementById('userId');
+
+            if (userIdInput) {
+                userIdInput.value = profile.userId;
+                searchData();
+            } else {
+                console.error('Error: Element with ID "userId" not found.');
+            }
         } catch (error) {
             console.error('Error getting profile data:', error);
         }
     }
-
     async function fetchData() {
         try {
             const values = await fetchValues();
@@ -235,14 +241,7 @@ function buildTable(tableId, values) {
         }
     });
     
-   // ...
-
-// Reset the counter after every third input event
-document.getElementById('userId').addEventListener('input', () => {
-    searchData(); // Trigger search immediately on input
-});
-
-function searchData() {
+    function searchData() {
     console.log('Search function called');
 
     const searchInput = document.getElementById('userId');
@@ -283,8 +282,6 @@ function searchData() {
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
 }
-
-// ...
 
 
 document.getElementById('userId').addEventListener('input', () => {
