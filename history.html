@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการบันทึก/</title>
+    <title>ประวัติการบันทึก</title>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 
@@ -247,7 +247,7 @@ function buildTable(tableId, values) {
     const table = document.getElementById('data-table');
     const rows = table.getElementsByTagName('tr');
 
-    let isDataFound = false; // Flag to check if any matching data is found
+    const filteredData = [];
 
     for (let i = 0; i < rows.length; i++) {
         const cells = rows[i].getElementsByTagName('td');
@@ -258,7 +258,6 @@ function buildTable(tableId, values) {
 
             if (cellText.toUpperCase().indexOf(filter) > -1) {
                 shouldDisplay = true;
-                isDataFound = true;
 
                 // Display data related to column A in the corresponding input field
                 const columnADataInput = document.getElementById('columnAData');
@@ -274,6 +273,9 @@ function buildTable(tableId, values) {
 
                 console.log('i:', i, 'j:', j, 'columnAData:', columnAData, 'columnBData:', columnBData);
 
+                // Collect filtered data
+                filteredData.push(Array.from(cells).map(cell => cell.textContent));
+
                 break;
             }
         }
@@ -281,9 +283,10 @@ function buildTable(tableId, values) {
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
 
-    // Display or hide the data table based on whether matching data is found
-    table.style.display = isDataFound ? '' : 'none';
+    // Build table with filtered data
+    buildTable('data-table', filteredData);
 }
+
 
 
 document.getElementById('userId').addEventListener('input', () => {
