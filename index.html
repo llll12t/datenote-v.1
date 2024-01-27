@@ -15,31 +15,31 @@
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     
 <script>
-    // window.onload = function () {
-    //     initializeLiff(),getUserProfile();
-    // };
+    window.onload = function () {
+        initializeLiff(),getUserProfile();
+    };
 
-    // async function initializeLiff() {
-    //     await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
+    async function initializeLiff() {
+        await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
 
-    //     if (liff.isLoggedIn()) {
-    //         getUserProfile();
-    //     } else {
-    //         liff.login();
-    //     }
-    // }
+        if (liff.isLoggedIn()) {
+            getUserProfile();
+        } else {
+            liff.login();
+        }
+    }
 
-    // async function getUserProfile() {
-    //     try {
-    //         const profile = await liff.getProfile();
-    //         document.getElementById('userId').value = profile.userId;
-    //         document.getElementById('displayName').value = profile.displayName;
-    //         // Trigger search when user ID is retrieved
-    //         searchData();
-    //     } catch (error) {
-    //         console.error('Error getting profile data:', error);
-    //     }
-    // }
+    async function getUserProfile() {
+        try {
+            const profile = await liff.getProfile();
+            document.getElementById('userId').value = profile.userId;
+            document.getElementById('displayName').value = profile.displayName;
+            // Trigger search when user ID is retrieved
+            searchData();
+        } catch (error) {
+            console.error('Error getting profile data:', error);
+        }
+    }
 </script>
 </head>
 <body>
