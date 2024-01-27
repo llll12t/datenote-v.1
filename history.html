@@ -247,6 +247,8 @@ function buildTable(tableId, values) {
     const table = document.getElementById('data-table');
     const rows = table.getElementsByTagName('tr');
 
+    let isDataFound = false; // Flag to check if any matching data is found
+
     for (let i = 0; i < rows.length; i++) {
         const cells = rows[i].getElementsByTagName('td');
         let shouldDisplay = false;
@@ -256,6 +258,7 @@ function buildTable(tableId, values) {
 
             if (cellText.toUpperCase().indexOf(filter) > -1) {
                 shouldDisplay = true;
+                isDataFound = true;
 
                 // Display data related to column A in the corresponding input field
                 const columnADataInput = document.getElementById('columnAData');
@@ -277,6 +280,9 @@ function buildTable(tableId, values) {
 
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
+
+    // Display or hide the data table based on whether matching data is found
+    table.style.display = isDataFound ? '' : 'none';
 }
 
 
