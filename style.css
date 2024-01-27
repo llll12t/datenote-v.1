@@ -1,6 +1,8 @@
 
  body{
-            font-family: 'Noto Sans Thai', sans-serif;        }
+            font-family: 'Noto Sans Thai', sans-serif;  
+	    font-size:1.2rem
+ 	}
         .input-group{
             justify-content: center;
         }
