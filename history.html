@@ -235,7 +235,14 @@ function buildTable(tableId, values) {
         }
     });
     
-    function searchData() {
+   // ...
+
+// Reset the counter after every third input event
+document.getElementById('userId').addEventListener('input', () => {
+    searchData(); // Trigger search immediately on input
+});
+
+function searchData() {
     console.log('Search function called');
 
     const searchInput = document.getElementById('userId');
@@ -276,6 +283,8 @@ function buildTable(tableId, values) {
         rows[i].style.display = shouldDisplay ? '' : 'none';
     }
 }
+
+// ...
 
 
 document.getElementById('userId').addEventListener('input', () => {
