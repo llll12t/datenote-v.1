@@ -150,3 +150,8 @@
             max-width: 100px;
             color:white;
     }
+
+	.footerbar{
+	    display: flex;
+   	    flex-direction: row-reverse;
+	}
