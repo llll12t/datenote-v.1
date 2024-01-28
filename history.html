@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการบันทึก</title>
+    <title>ประวัติการบันทึก-</title>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <!-- Add this line to include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -135,29 +135,43 @@
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
-    async function fetchData() {
-        try {
-            // Show loading alert using SweetAlert
+   async function fetchData() {
+    try {
+        const searchInput = document.getElementById('userId');
+        const filter = searchInput.value.toUpperCase();
+
+        // Show loading alert using SweetAlert
+        Swal.fire({
+            title: 'กำลังโหลดข้อมูล...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const values = await fetchValues();
+        const filteredValues = filterData(values);
+        buildTable('data-table', filteredValues);
+        buildAdditionalTable('additional-table', filteredValues);
+
+        // Close loading alert after data is loaded
+        Swal.close();
+
+        // Check if any data matches the search filter
+        const hasSearchResult = filteredValues.length > 0;
+
+        // Show the loading alert only if there is a search result
+        if (!hasSearchResult) {
             Swal.fire({
-                title: 'กำลังโหลดข้อมูล...',
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                icon: 'info',
+                title: 'ไม่พบข้อมูลที่ตรงกับคำค้นหา',
             });
-
-            const values = await fetchValues();
-            const filteredValues = filterData(values);
-            buildTable('data-table', filteredValues);
-            buildAdditionalTable('additional-table', filteredValues);
-
-            // Close loading alert after data is loaded
-            Swal.close();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            // You can also show an error alert using Swal.fire() here
         }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        // You can also show an error alert using Swal.fire() here
     }
+}
 
 
     function buildAdditionalTable(tableId, values) {
