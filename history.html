@@ -141,7 +141,7 @@
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
-   async function fetchData() {
+  async function fetchData() {
     try {
         // Show loading alert using SweetAlert
         Swal.fire({
@@ -154,7 +154,28 @@
 
         const values = await fetchValues();
         const filteredValues = filterData(values);
-        buildTable('data-table', filteredValues);
+
+        // Build table with only the first row
+        const tableId = 'data-table';
+        const table = document.getElementById(tableId);
+        table.innerHTML = '';
+        const firstRow = filteredValues[0];
+        const tr = document.createElement('tr');
+        firstRow.forEach((cell, cellIndex) => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+
+            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+            if (hiddenColumns.includes(cellIndex)) {
+                td.style.display = 'none';
+            }
+
+            tr.appendChild(td);
+        });
+
+        table.appendChild(tr);
+
+        // Build additional table with only the first row
         buildAdditionalTable('additional-table', filteredValues);
 
         // Close loading alert after data is loaded
@@ -170,6 +191,7 @@
         // You can also show an error alert using Swal.fire() here
     }
 }
+
 
     function buildAdditionalTable(tableId, values) {
         const table = document.getElementById(tableId);
