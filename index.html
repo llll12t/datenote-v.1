@@ -706,56 +706,57 @@
     // Call the fetchData function when the page loads
     fetchData();
 
-    function searchData() {
-        const searchInput = document.getElementById('userId');
-        const filter = searchInput.value.toUpperCase();
-        const table = document.getElementById('data-table');
-        const rows = table.getElementsByTagName('tr');
+  function searchData() {
+    const searchInput = document.getElementById('userId');
+    const filter = searchInput.value.toUpperCase();
+    const table = document.getElementById('data-table');
+    const rows = table.getElementsByTagName('tr');
 
-        let tableHidden = true; // Assume the table is initially hidden
+    let tableHidden = true; // Assume the table is initially hidden
 
-        for (let i = 0; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let shouldDisplay = false;
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let shouldDisplay = false;
 
-            for (let j = 0; j < cells.length; j++) {
-                const cellText = cells[j].textContent || cells[j].innerText;
+        for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent || cells[j].innerText;
 
-                if (cellText.toUpperCase().indexOf(filter) > -1) {
-                    shouldDisplay = true;
+            if (cellText.toUpperCase().indexOf(filter) > -1) {
+                shouldDisplay = true;
 
-                    // Display data related to columns in the corresponding input fields
-                    const columnADataInput = document.getElementById('columnAData');
-                    const columnAData = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
-                    columnADataInput.value = columnAData;
+                // Display data related to columns in the corresponding input fields
+                const columnADataInput = document.getElementById('columnAData');
+                const columnAData = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
+                columnADataInput.value = columnAData;
 
-                    const columnBDataInput = document.getElementById('columnBData');
-                    const columnBData = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                    columnBDataInput.value = columnBData;
+                const columnBDataInput = document.getElementById('columnBData');
+                const columnBData = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                columnBDataInput.value = columnBData;
 
-                    const roleInputInput = document.getElementById('roleInput');
-                    const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                    roleInputInput.value = roleInput;
+                const roleInputInput = document.getElementById('roleInput');
+                const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                roleInputInput.value = roleInput;
 
-                    const columnDDataInput = document.getElementById('columnDData');
-                    const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                    columnDDataInput.value = columnDData;
+                const columnDDataInput = document.getElementById('columnDData');
+                const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                columnDDataInput.value = columnDData;
 
-                    break;
-                }
-            }
-
-            rows[i].style.display = shouldDisplay ? '' : 'none';
-
-            // If at least one row matches, set the tableHidden flag to false
-            if (shouldDisplay) {
-                tableHidden = false;
+                break;
             }
         }
 
-        // Show or hide the table based on the tableHidden flag
-        table.style.display = tableHidden ? 'none' : '';
+        rows[i].style.display = shouldDisplay ? '' : 'none';
+
+        // If at least one row matches, set the tableHidden flag to false
+        if (shouldDisplay) {
+            tableHidden = false;
+        }
     }
+
+    // Show or hide the table based on the tableHidden flag
+    table.style.display = tableHidden ? 'none' : '';
+}
+
 </script>
 
 </body>
