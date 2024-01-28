@@ -141,29 +141,35 @@
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
-    async function fetchData() {
-        try {
-            // Show loading alert using SweetAlert
-            Swal.fire({
-                title: 'กำลังโหลดข้อมูล...',
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+   async function fetchData() {
+    try {
+        // Show loading alert using SweetAlert
+        Swal.fire({
+            title: 'กำลังโหลดข้อมูล...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-            const values = await fetchValues();
-            const filteredValues = filterData(values);
-            buildTable('data-table', filteredValues);
-            buildAdditionalTable('additional-table', filteredValues);
+        const values = await fetchValues();
+        const filteredValues = filterData(values);
+        buildTable('data-table', filteredValues);
+        buildAdditionalTable('additional-table', filteredValues);
 
-            // Close loading alert after data is loaded
-            Swal.close();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            // You can also show an error alert using Swal.fire() here
-        }
+        // Close loading alert after data is loaded
+        Swal.close();
+
+        // Hide the table if there is no matching data
+        const hasMatchingData = filteredValues.length > 0;
+        const dataTable = document.getElementById('data-table');
+        dataTable.style.display = hasMatchingData ? '' : 'none';
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        // You can also show an error alert using Swal.fire() here
     }
+}
 
     function buildAdditionalTable(tableId, values) {
         const table = document.getElementById(tableId);
