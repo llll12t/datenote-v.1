@@ -252,58 +252,60 @@
         }
     });
 
-    function searchData() {
-        console.log('Search function called');
+ function searchData() {
+    console.log('Search function called');
 
-        const searchInput = document.getElementById('userId');
-        const filter = searchInput.value.toUpperCase();
-        console.log('Filter:', filter);
+    const searchInput = document.getElementById('userId');
+    const filter = searchInput.value.toUpperCase();
+    console.log('Filter:', filter);
 
-        const table = document.getElementById('data-table');
-        const rows = table.getElementsByTagName('tr');
+    const table = document.getElementById('data-table');
+    const rows = table.getElementsByTagName('tr');
 
-        for (let i = 0; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let shouldDisplay = false;
+    let anyMatch = false; // Flag to check if any row matches the search
 
-            for (let j = 0; j < cells.length; j++) {
-                const cellText = cells[j].textContent || cells[j].innerText;
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let shouldDisplay = false;
 
-                if (cellText.toUpperCase().indexOf(filter) > -1) {
-                    shouldDisplay = true;
+        for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent || cells[j].innerText;
 
-                    // Display data related to column A in the corresponding input field
-                    const columnADataInput = document.getElementById('columnAData');
-                    const columnAData =
-                        rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
-                    columnADataInput.value = columnAData;
+            if (cellText.toUpperCase().indexOf(filter) > -1) {
+                shouldDisplay = true;
+                anyMatch = true; // Set the flag to true if there is a match
 
-                    // Display data related to column B in the corresponding input field
-                    const columnBDataInput = document.getElementById('columnBData');
-                    const columnBData =
-                        rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
-                    columnBDataInput.value = columnBData;
+                // Display data related to column A in the corresponding input field
+                const columnADataInput = document.getElementById('columnAData');
+                const columnAData =
+                    rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
+                columnADataInput.value = columnAData;
 
-                    console.log('i:', i, 'j:', j, 'columnAData:', columnAData, 'columnBData:', columnBData);
+                // Display data related to column B in the corresponding input field
+                const columnBDataInput = document.getElementById('columnBData');
+                const columnBData =
+                    rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
+                columnBDataInput.value = columnBData;
 
-                    break;
-                }
+                console.log('i:', i, 'j:', j, 'columnAData:', columnAData, 'columnBData:', columnBData);
+
+                break;
             }
-
-            rows[i].style.display = shouldDisplay ? '' : 'none';
         }
+
+        rows[i].style.display = shouldDisplay ? '' : 'none';
     }
-    document.getElementById('userId').addEventListener('input', () => {
-        inputEventCounter++;
-        if (inputEventCounter === 3) {
-            inputEventCounter = 0;
-        }
 
-        // Run the search logic every third input event
-        if (inputEventCounter === 0) {
-            searchData();
-        }
-    });
+    // Clear the table if no matching rows are found
+    if (!anyMatch) {
+        table.innerHTML = '';
+        const noResultRow = table.insertRow();
+        const noResultCell = noResultRow.insertCell();
+        noResultCell.colSpan = 4; // Adjust the colspan based on the number of columns
+        noResultCell.textContent = 'No matching results.';
+    }
+}
+
 </script>
 <body>
     <div class="card">
