@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประวัติ การบันทึก</title>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <!-- Add this line to include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <style>
@@ -136,14 +139,28 @@ const additionalTableId = 'additional-table';
 
 async function fetchData() {
     try {
+        // Show loading alert using SweetAlert
+        Swal.fire({
+            title: 'กำลังโหลดข้อมูล...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         const values = await fetchValues();
         const filteredValues = filterData(values);
         buildTable('data-table', filteredValues);
-        buildAdditionalTable('additional-table', filteredValues); // Call the new function
+        buildAdditionalTable('additional-table', filteredValues);
+
+        // Close loading alert after data is loaded
+        Swal.close();
     } catch (error) {
         console.error('Error fetching data:', error);
+        // You can also show an error alert using Swal.fire() here
     }
 }
+
 
 function buildAdditionalTable(tableId, values) {
     const table = document.getElementById(tableId);
@@ -299,7 +316,7 @@ document.getElementById('userId').addEventListener('input', () => {
 
 <body>
     <div class="card">
-        <input type="text" id="userId" name="userId"  style="color: rgb(255, 255, 255);" />
+        <input type="text" id="userId" name="userId" value="U0f1478ccfc132f196c7e5c0b574b22bd"  style="color: rgb(255, 255, 255);" />
         <br>
         <table style="background-color:#455089;color: white;">
             <td>ชื่อ</td>
