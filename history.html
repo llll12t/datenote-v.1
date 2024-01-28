@@ -206,40 +206,40 @@ document.getElementById('userId').addEventListener('input', () => {
     }
 
 
-    function buildTable(tableId, values) {
-        const table = document.getElementById(tableId);
-        table.innerHTML = '';
+  function buildTable(tableId, values) {
+    const table = document.getElementById(tableId);
+    table.innerHTML = ''; // Clear the table before populating with filtered data
 
-        // Calculate start and end index for the current page
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
+    // Calculate start and end index for the current page
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
 
-        const reversedValues = values.slice().reverse();
+    const reversedValues = values.slice().reverse();
 
-        reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, cellIndex) => {
-                const td = document.createElement('td');
-                td.textContent = cell;
+    reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
+        const tr = document.createElement('tr');
+        row.forEach((cell, cellIndex) => {
+            const td = document.createElement('td');
+            td.textContent = cell;
 
-                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-                if (hiddenColumns.includes(cellIndex)) {
-                    td.style.display = 'none';
-                }
-
-                tr.appendChild(td);
-            });
-
-            // Hide the seventh row (index 6)
-            if (rowIndex === 6) {
-                tr.style.display = 'none';
+            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+            if (hiddenColumns.includes(cellIndex)) {
+                td.style.display = 'none';
             }
 
-            table.appendChild(tr);
+            tr.appendChild(td);
         });
 
-        updatePaginationControls(values.length);
-    }
+        // Hide the seventh row (index 6)
+        if (rowIndex === 6) {
+            tr.style.display = 'none';
+        }
+
+        table.appendChild(tr);
+    });
+
+    updatePaginationControls(values.length);
+}
 
 
     function updatePaginationControls(totalItems) {
