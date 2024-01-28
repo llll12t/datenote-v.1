@@ -136,28 +136,31 @@
     const additionalTableId = 'additional-table';
 
     async function fetchData() {
-        try {
-            // Show loading alert using SweetAlert
-            Swal.fire({
-                title: 'กำลังโหลดข้อมูล...',
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+    try {
+        // Show loading alert using SweetAlert
+        Swal.fire({
+            title: 'กำลังโหลดข้อมูล...',
+            allowOutsideClick: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-            const values = await fetchValues();
-            const filteredValues = filterData(values);
-            buildTable('data-table', filteredValues);
-            buildAdditionalTable('additional-table', filteredValues);
+        const values = await fetchValues();
+        const filteredValues = filterData(values);
 
-            // Close loading alert after data is loaded
-            Swal.close();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            // You can also show an error alert using Swal.fire() here
-        }
+        // Pass filteredValues directly to buildTable
+        buildTable('data-table', filteredValues);
+        buildAdditionalTable('additional-table', filteredValues);
+
+        // Close loading alert after data is loaded
+        Swal.close();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        // You can also show an error alert using Swal.fire() here
     }
+}
+
 
 
     function buildAdditionalTable(tableId, values) {
@@ -188,8 +191,6 @@
         // Calculate start and end index for the current page
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-
-        const reversedValues = values.slice().reverse();
 
         reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
             const tr = document.createElement('tr');
@@ -307,7 +308,8 @@
 </script>
 <body>
     <div class="card">
-        <input type="text" id="userId" name="userId" style="color: rgb(255, 255, 255);" />
+        <input type="text" id="userId" name="userId" value="U0f1478ccfc132f196c7e5c0b574b22bd"
+            style="color: rgb(255, 255, 255);" />
         <br>
         <table style="background-color:#455089;color: white;">
             <td>ชื่อ</td>
