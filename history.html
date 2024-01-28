@@ -215,46 +215,47 @@
         }
     });
 
- // Modify the buildTable function
-function buildTable(tableId, values) {
-    const table = document.getElementById(tableId);
-    table.innerHTML = '';
+ function buildTable(tableId, values) {
+        const table = document.getElementById(tableId);
+        table.innerHTML = '';
 
-    const filteredValues = values.filter(row => {
-        for (let j = 0; j < row.length; j++) {
-            const cellText = row[j].toUpperCase();
-            if (cellText.indexOf(filter) > -1) {
-                return true;
+        const filteredValues = values.filter(row => {
+            for (let j = 0; j < row.length; j++) {
+                const cellText = row[j].toUpperCase();
+                if (cellText.indexOf(filter) > -1) {
+                    return true;
+                }
             }
-        }
-        return false;
-    });
-
-    filteredValues.forEach((row, rowIndex) => {
-        const tr = document.createElement('tr');
-        row.forEach((cell, cellIndex) => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-
-            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-            if (hiddenColumns.includes(cellIndex)) {
-                td.style.display = 'none';
-            }
-
-            tr.appendChild(td);
+            return false;
         });
 
-        // Hide the seventh row (index 6)
-        if (rowIndex === 6) {
-            tr.style.display = 'none';
-        }
+        // Show or hide the data-table based on the presence of matching data
+        table.style.display = filteredValues.length > 0 ? '' : 'none';
 
-        table.appendChild(tr);
-    });
+        filteredValues.forEach((row, rowIndex) => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, cellIndex) => {
+                const td = document.createElement('td');
+                td.textContent = cell;
 
-    updatePaginationControls(filteredValues.length);
-}
+                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+                if (hiddenColumns.includes(cellIndex)) {
+                    td.style.display = 'none';
+                }
 
+                tr.appendChild(td);
+            });
+
+            // Hide the seventh row (index 6)
+            if (rowIndex === 6) {
+                tr.style.display = 'none';
+            }
+
+            table.appendChild(tr);
+        });
+
+        updatePaginationControls(filteredValues.length);
+    }
 
  // Modify the searchData function
 function searchData() {
