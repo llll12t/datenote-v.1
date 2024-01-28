@@ -148,40 +148,28 @@ async function fetchData() {
 
         const values = await fetchValues();
         const filteredValues = filterData(values);
-        buildTable('data-table', filteredValues);
-        buildAdditionalTable('additional-table', filteredValues);
+        
+        // Check if there are any filtered values
+        if (filteredValues.length > 0) {
+            buildTable('data-table', filteredValues);
+            buildAdditionalTable('additional-table', filteredValues);
+        } else {
+            // Handle case where no data is found (optional)
+            // You can display a message or perform any other actions
+        }
 
         // Close loading alert after data is loaded
         Swal.close();
-
-        // Check if any data matches the search filter
-        const hasSearchResult = filteredValues.length > 0;
-
-        // Show the loading alert only if there is a search result
-        if (!hasSearchResult) {
-            Swal.fire({
-                icon: 'info',
-                title: 'ไม่พบข้อมูลที่ตรงกับคำค้นหา',
-            });
-        }
     } catch (error) {
         console.error('Error fetching data:', error);
         // You can also show an error alert using Swal.fire() here
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาดในการโหลดข้อมูล',
+            text: 'กรุณาลองใหม่อีกครั้ง',
+        });
     }
 }
-
-// Reset the counter after every third input event
-document.getElementById('userId').addEventListener('input', () => {
-    inputEventCounter++;
-    if (inputEventCounter === 3) {
-        inputEventCounter = 0;
-    }
-
-    // Run the search logic every third input event
-    if (inputEventCounter === 0) {
-        searchData();
-    }
-});
 
 
 
