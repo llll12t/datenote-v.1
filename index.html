@@ -707,49 +707,45 @@ async function fetchData() {
 fetchData();
 
 function searchData() {
-const searchInput = document.getElementById('userId');
-const filter = searchInput.value.toUpperCase();
-const table = document.getElementById('data-table');
-const rows = table.getElementsByTagName('tr');
+    const searchInput = document.getElementById('userId');
+    const filter = searchInput.value.toUpperCase();
+    const table = document.getElementById('data-table');
+    const rows = table.getElementsByTagName('tr');
 
-for (let i = 0; i < rows.length; i++) {
-const cells = rows[i].getElementsByTagName('td');
-let shouldDisplay = false;
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let shouldDisplay = false;
 
-for (let j = 0; j < cells.length; j++) {
-    const cellText = cells[j].textContent || cells[j].innerText;
+        for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent || cells[j].innerText;
 
-if (cellText.toUpperCase().indexOf(filter) > -1) {
-    shouldDisplay = true;
+            if (cellText.toUpperCase().indexOf(filter) > -1) {
+                shouldDisplay = true;
 
-    // Display data related to column A in the corresponding input field
-    const columnADataInput = document.getElementById('columnAData');
-    const columnAData = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
-    columnADataInput.value = columnAData;
+                // Update input fields with corresponding data
+                const columnADataInput = document.getElementById('columnAData');
+                columnADataInput.value = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
 
-    // Display data related to column B in the corresponding input field
-    const columnBDataInput = document.getElementById('columnBData');
-    const columnBData = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-    columnBDataInput.value = columnBData;
+                const columnBDataInput = document.getElementById('columnBData');
+                columnBDataInput.value = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
 
-    // Display data related to column B in the corresponding input field
-    const roleInputInput = document.getElementById('roleInput');
-    const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-    roleInputInput.value = roleInput;
+                const roleInputInput = document.getElementById('roleInput');
+                roleInputInput.value = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[1].innerText;
 
-    // Display data related to column D in the corresponding input field
-    const columnDDataInput = document.getElementById('columnDData');
-    const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-    columnDDataInput.value = columnDData;
+                const columnDDataInput = document.getElementById('columnDData');
+                columnDDataInput.value = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
 
-    break;
+                break;
+            }
+        }
+
+        // Display or hide the row based on the search result
+        rows[i].style.display = shouldDisplay ? '' : 'none';
     }
+    
+    // Update the data-table visibility based on search result
+    table.style.display = filter !== '' ? 'table' : 'none';
 }
-
-    rows[i].style.display = shouldDisplay ? '' : 'none';
-    }
-}
-
 
 </script>
 </body>
