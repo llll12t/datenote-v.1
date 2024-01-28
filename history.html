@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <!-- Add this line to include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <style>
     input {
         border: 1px solid white;
@@ -79,7 +81,9 @@
     };
 
     async function initializeLiff() {
-        await liff.init({ liffId: '2002290922-yOznjZkQ' }); // Replace with your LIFF ID
+        await liff.init({
+            liffId: '2002290922-yOznjZkQ'
+        }); // Replace with your LIFF ID
 
         if (liff.isLoggedIn()) {
             getUserProfile();
@@ -105,7 +109,8 @@
         try {
             const values = await fetchValues();
             const filteredValues = filterData(values); // Filter the data
-            buildTable(filteredValues);
+            buildTable('data-table', filteredValues);
+            buildAdditionalTable('additional-table', filteredValues);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -132,6 +137,7 @@
             return false;
         });
     }
+
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
@@ -158,7 +164,6 @@
             // You can also show an error alert using Swal.fire() here
         }
     }
-
 
     function buildAdditionalTable(tableId, values) {
         const table = document.getElementById(tableId);
@@ -215,7 +220,8 @@
         }
     });
 
- function buildTable(tableId, values) {
+    // Modify the buildTable function
+    function buildTable(tableId, values) {
         const table = document.getElementById(tableId);
         table.innerHTML = '';
 
@@ -257,37 +263,37 @@
         updatePaginationControls(filteredValues.length);
     }
 
- // Modify the searchData function
-function searchData() {
-    const searchInput = document.getElementById('userId');
-    const filter = searchInput.value.toUpperCase();
+    // Modify the searchData function
+    function searchData() {
+        const searchInput = document.getElementById('userId');
+        const filter = searchInput.value.toUpperCase();
 
-    const table = document.getElementById('data-table');
-    const rows = table.getElementsByTagName('tr');
-    let hasMatchingData = false;
+        const table = document.getElementById('data-table');
+        const rows = table.getElementsByTagName('tr');
+        let hasMatchingData = false;
 
-    for (let i = 0; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        let shouldDisplay = false;
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let shouldDisplay = false;
 
-        for (let j = 0; j < cells.length; j++) {
-            const cellText = cells[j].textContent || cells[j].innerText;
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
 
-            if (cellText.toUpperCase().indexOf(filter) > -1) {
-                shouldDisplay = true;
-                hasMatchingData = true; // Set to true if there is a match
-                break;
+                if (cellText.toUpperCase().indexOf(filter) > -1) {
+                    shouldDisplay = true;
+                    hasMatchingData = true; // Set to true if there is a match
+                    break;
+                }
             }
+
+            rows[i].style.display = shouldDisplay ? '' : 'none';
         }
 
-        rows[i].style.display = shouldDisplay ? '' : 'none';
+        // Show or hide the data-table based on the presence of matching data
+        table.style.display = hasMatchingData ? '' : 'none';
     }
-
-    // Show or hide the data-table based on the presence of matching data
-    table.style.display = hasMatchingData ? '' : 'none';
-}
-
 </script>
+
 <body>
     <div class="card">
         <input type="text" id="userId" name="userId" style="color: rgb(255, 255, 255);" />
