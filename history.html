@@ -135,11 +135,8 @@
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
-   async function fetchData() {
+async function fetchData() {
     try {
-        const searchInput = document.getElementById('userId');
-        const filter = searchInput.value.toUpperCase();
-
         // Show loading alert using SweetAlert
         Swal.fire({
             title: 'กำลังโหลดข้อมูล...',
@@ -172,6 +169,20 @@
         // You can also show an error alert using Swal.fire() here
     }
 }
+
+// Reset the counter after every third input event
+document.getElementById('userId').addEventListener('input', () => {
+    inputEventCounter++;
+    if (inputEventCounter === 3) {
+        inputEventCounter = 0;
+    }
+
+    // Run the search logic every third input event
+    if (inputEventCounter === 0) {
+        searchData();
+    }
+});
+
 
 
     function buildAdditionalTable(tableId, values) {
