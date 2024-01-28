@@ -244,30 +244,36 @@
         updatePaginationControls(values.length);
     }
 
-    // Modify the searchData function
-    function searchData() {
-        const searchInput = document.getElementById('userId');
-        const filter = searchInput.value.toUpperCase();
+ // Modify the searchData function
+function searchData() {
+    const searchInput = document.getElementById('userId');
+    const filter = searchInput.value.toUpperCase();
 
-        const table = document.getElementById('data-table');
-        const rows = table.getElementsByTagName('tr');
+    const table = document.getElementById('data-table');
+    const rows = table.getElementsByTagName('tr');
+    let hasMatchingData = false;
 
-        for (let i = 0; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            let shouldDisplay = false;
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let shouldDisplay = false;
 
-            for (let j = 0; j < cells.length; j++) {
-                const cellText = cells[j].textContent || cells[j].innerText;
+        for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent || cells[j].innerText;
 
-                if (cellText.toUpperCase().indexOf(filter) > -1) {
-                    shouldDisplay = true;
-                    break;
-                }
+            if (cellText.toUpperCase().indexOf(filter) > -1) {
+                shouldDisplay = true;
+                hasMatchingData = true; // Set to true if there is a match
+                break;
             }
-
-            rows[i].style.display = shouldDisplay ? '' : 'none';
         }
+
+        rows[i].style.display = shouldDisplay ? '' : 'none';
     }
+
+    // Show or hide the data-table based on the presence of matching data
+    table.style.display = hasMatchingData ? '' : 'none';
+}
+
 </script>
 <body>
     <div class="card">
