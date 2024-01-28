@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +9,6 @@
     <!-- Add this line to include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <style>
     input {
         border: 1px solid white;
@@ -81,9 +79,7 @@
     };
 
     async function initializeLiff() {
-        await liff.init({
-            liffId: '2002290922-yOznjZkQ'
-        }); // Replace with your LIFF ID
+        await liff.init({ liffId: '2002290922-yOznjZkQ' }); // Replace with your LIFF ID
 
         if (liff.isLoggedIn()) {
             getUserProfile();
@@ -109,8 +105,7 @@
         try {
             const values = await fetchValues();
             const filteredValues = filterData(values); // Filter the data
-            buildTable('data-table', filteredValues);
-            buildAdditionalTable('additional-table', filteredValues);
+            buildTable(filteredValues);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -130,67 +125,39 @@
         return values.filter((row) => {
             for (let j = 0; j < row.length; j++) {
                 const cellText = row[j].toUpperCase();
-                if (cellText.includes(filter)) {
+                if (cellText.indexOf(filter) > -1) {
                     return true;
                 }
             }
             return false;
         });
     }
-
     // Add a new constant for the additional table ID
     const additionalTableId = 'additional-table';
 
-  async function fetchData() {
-    try {
-        // Show loading alert using SweetAlert
-        Swal.fire({
-            title: 'กำลังโหลดข้อมูล...',
-            allowOutsideClick: false,
-            onBeforeOpen: () => {
-                Swal.showLoading();
-            }
-        });
+    async function fetchData() {
+        try {
+            // Show loading alert using SweetAlert
+            Swal.fire({
+                title: 'กำลังโหลดข้อมูล...',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
-        const values = await fetchValues();
-        const filteredValues = filterData(values);
+            const values = await fetchValues();
+            const filteredValues = filterData(values);
+            buildTable('data-table', filteredValues);
+            buildAdditionalTable('additional-table', filteredValues);
 
-        // Build table with only the first row
-        const tableId = 'data-table';
-        const table = document.getElementById(tableId);
-        table.innerHTML = '';
-        const firstRow = filteredValues[0];
-        const tr = document.createElement('tr');
-        firstRow.forEach((cell, cellIndex) => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-
-            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-            if (hiddenColumns.includes(cellIndex)) {
-                td.style.display = 'none';
-            }
-
-            tr.appendChild(td);
-        });
-
-        table.appendChild(tr);
-
-        // Build additional table with only the first row
-        buildAdditionalTable('additional-table', filteredValues);
-
-        // Close loading alert after data is loaded
-        Swal.close();
-
-        // Hide the table if there is no matching data
-        const hasMatchingData = filteredValues.length > 0;
-        const dataTable = document.getElementById('data-table');
-        dataTable.style.display = hasMatchingData ? '' : 'none';
-
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        // You can also show an error alert using Swal.fire() here
+            // Close loading alert after data is loaded
+            Swal.close();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // You can also show an error alert using Swal.fire() here
+        }
     }
-}
 
 
     function buildAdditionalTable(tableId, values) {
@@ -212,6 +179,43 @@
 
         table.appendChild(tr);
     }
+
+
+    function buildTable(tableId, values) {
+        const table = document.getElementById(tableId);
+        table.innerHTML = '';
+
+        // Calculate start and end index for the current page
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        const reversedValues = values.slice().reverse();
+
+        reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, cellIndex) => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+
+                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+                if (hiddenColumns.includes(cellIndex)) {
+                    td.style.display = 'none';
+                }
+
+                tr.appendChild(td);
+            });
+
+            // Hide the seventh row (index 6)
+            if (rowIndex === 6) {
+                tr.style.display = 'none';
+            }
+
+            table.appendChild(tr);
+        });
+
+        updatePaginationControls(values.length);
+    }
+
 
     function updatePaginationControls(totalItems) {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -248,44 +252,15 @@
         }
     });
 
-  function buildTable(tableId, values) {
-    const table = document.getElementById(tableId);
-    table.innerHTML = '';
-
-    values.forEach((row, rowIndex) => {
-        const tr = document.createElement('tr');
-        row.forEach((cell, cellIndex) => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-
-            const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-            if (hiddenColumns.includes(cellIndex)) {
-                td.style.display = 'none';
-            }
-
-            tr.appendChild(td);
-        });
-
-        // Hide the seventh row (index 6)
-        if (rowIndex === 6) {
-            tr.style.display = 'none';
-        }
-
-        table.appendChild(tr);
-    });
-
-    updatePaginationControls(values.length);
-}
-
-
-    // Modify the searchData function
     function searchData() {
+        console.log('Search function called');
+
         const searchInput = document.getElementById('userId');
         const filter = searchInput.value.toUpperCase();
+        console.log('Filter:', filter);
 
         const table = document.getElementById('data-table');
         const rows = table.getElementsByTagName('tr');
-        let hasMatchingData = false;
 
         for (let i = 0; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName('td');
@@ -294,24 +269,46 @@
             for (let j = 0; j < cells.length; j++) {
                 const cellText = cells[j].textContent || cells[j].innerText;
 
-                if (cellText.toUpperCase().includes(filter)) {
+                if (cellText.toUpperCase().indexOf(filter) > -1) {
                     shouldDisplay = true;
-                    hasMatchingData = true; // Set to true if there is a match
+
+                    // Display data related to column A in the corresponding input field
+                    const columnADataInput = document.getElementById('columnAData');
+                    const columnAData =
+                        rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
+                    columnADataInput.value = columnAData;
+
+                    // Display data related to column B in the corresponding input field
+                    const columnBDataInput = document.getElementById('columnBData');
+                    const columnBData =
+                        rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
+                    columnBDataInput.value = columnBData;
+
+                    console.log('i:', i, 'j:', j, 'columnAData:', columnAData, 'columnBData:', columnBData);
+
                     break;
                 }
             }
 
             rows[i].style.display = shouldDisplay ? '' : 'none';
         }
-
-        // Show or hide the data-table based on the presence of matching data
-        table.style.display = hasMatchingData ? '' : 'none';
     }
-</script>
+    document.getElementById('userId').addEventListener('input', () => {
+        inputEventCounter++;
+        if (inputEventCounter === 3) {
+            inputEventCounter = 0;
+        }
 
+        // Run the search logic every third input event
+        if (inputEventCounter === 0) {
+            searchData();
+        }
+    });
+</script>
 <body>
     <div class="card">
-        <input type="text" id="userId" name="userId" style="color: rgb(255, 255, 255);" />
+        <input type="text" id="userId" name="userId" value="U0f1478ccfc132f196c7e5c0b574b22bd"
+            style="color: rgb(255, 255, 255);" />
         <br>
         <table style="background-color:#455089;color: white;">
             <td>ชื่อ</td>
