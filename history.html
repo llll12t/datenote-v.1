@@ -180,43 +180,6 @@
         table.appendChild(tr);
     }
 
-
-    function buildTable(tableId, values) {
-        const table = document.getElementById(tableId);
-        table.innerHTML = '';
-
-        // Calculate start and end index for the current page
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-
-        const reversedValues = values.slice().reverse();
-
-        reversedValues.slice(startIndex, endIndex).forEach((row, rowIndex) => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, cellIndex) => {
-                const td = document.createElement('td');
-                td.textContent = cell;
-
-                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-                if (hiddenColumns.includes(cellIndex)) {
-                    td.style.display = 'none';
-                }
-
-                tr.appendChild(td);
-            });
-
-            // Hide the seventh row (index 6)
-            if (rowIndex === 6) {
-                tr.style.display = 'none';
-            }
-
-            table.appendChild(tr);
-        });
-
-        updatePaginationControls(values.length);
-    }
-
-
     function updatePaginationControls(totalItems) {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         const paginationControls = document.getElementById('pagination-controls');
@@ -252,12 +215,39 @@
         }
     });
 
-    function searchData() {
-        console.log('Search function called');
+   function buildTable(tableId, values) {
+        const table = document.getElementById(tableId);
+        table.innerHTML = '';
 
+        values.forEach((row, rowIndex) => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, cellIndex) => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+
+                const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
+                if (hiddenColumns.includes(cellIndex)) {
+                    td.style.display = 'none';
+                }
+
+                tr.appendChild(td);
+            });
+
+            // Hide the seventh row (index 6)
+            if (rowIndex === 6) {
+                tr.style.display = 'none';
+            }
+
+            table.appendChild(tr);
+        });
+
+        updatePaginationControls(values.length);
+    }
+
+    // Modify the searchData function
+    function searchData() {
         const searchInput = document.getElementById('userId');
         const filter = searchInput.value.toUpperCase();
-        console.log('Filter:', filter);
 
         const table = document.getElementById('data-table');
         const rows = table.getElementsByTagName('tr');
@@ -271,21 +261,6 @@
 
                 if (cellText.toUpperCase().indexOf(filter) > -1) {
                     shouldDisplay = true;
-
-                    // Display data related to column A in the corresponding input field
-                    const columnADataInput = document.getElementById('columnAData');
-                    const columnAData =
-                        rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
-                    columnADataInput.value = columnAData;
-
-                    // Display data related to column B in the corresponding input field
-                    const columnBDataInput = document.getElementById('columnBData');
-                    const columnBData =
-                        rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
-                    columnBDataInput.value = columnBData;
-
-                    console.log('i:', i, 'j:', j, 'columnAData:', columnAData, 'columnBData:', columnBData);
-
                     break;
                 }
             }
@@ -293,17 +268,6 @@
             rows[i].style.display = shouldDisplay ? '' : 'none';
         }
     }
-    document.getElementById('userId').addEventListener('input', () => {
-        inputEventCounter++;
-        if (inputEventCounter === 3) {
-            inputEventCounter = 0;
-        }
-
-        // Run the search logic every third input event
-        if (inputEventCounter === 0) {
-            searchData();
-        }
-    });
 </script>
 <body>
     <div class="card">
