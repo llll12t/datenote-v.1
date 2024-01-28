@@ -130,7 +130,7 @@
         return values.filter((row) => {
             for (let j = 0; j < row.length; j++) {
                 const cellText = row[j].toUpperCase();
-                if (cellText.indexOf(filter) > -1) {
+                if (cellText.includes(filter)) {
                     return true;
                 }
             }
@@ -225,20 +225,7 @@
         const table = document.getElementById(tableId);
         table.innerHTML = '';
 
-        const filteredValues = values.filter(row => {
-            for (let j = 0; j < row.length; j++) {
-                const cellText = row[j].toUpperCase();
-                if (cellText.indexOf(filter) > -1) {
-                    return true;
-                }
-            }
-            return false;
-        });
-
-        // Show or hide the data-table based on the presence of matching data
-        table.style.display = filteredValues.length > 0 ? '' : 'none';
-
-        filteredValues.forEach((row, rowIndex) => {
+        values.forEach((row, rowIndex) => {
             const tr = document.createElement('tr');
             row.forEach((cell, cellIndex) => {
                 const td = document.createElement('td');
@@ -260,7 +247,7 @@
             table.appendChild(tr);
         });
 
-        updatePaginationControls(filteredValues.length);
+        updatePaginationControls(values.length);
     }
 
     // Modify the searchData function
@@ -279,7 +266,7 @@
             for (let j = 0; j < cells.length; j++) {
                 const cellText = cells[j].textContent || cells[j].innerText;
 
-                if (cellText.toUpperCase().indexOf(filter) > -1) {
+                if (cellText.toUpperCase().includes(filter)) {
                     shouldDisplay = true;
                     hasMatchingData = true; // Set to true if there is a match
                     break;
