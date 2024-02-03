@@ -38,6 +38,7 @@ body{
         border: none;
         padding: 15px;
         width: 120px;
+        border-radius: 5px;
     }
     .btn-green{
         background-color: #179824;
@@ -58,17 +59,20 @@ body{
         color: white;
         padding: 15px;
         width: 120px;
+        border-radius: 5px;
     }
     .btn-gray{
         background-color: #b3b3b3;
         color: white;
         padding: 15px;
         width: 120px;
+        border-radius: 5px;
     }
     .btn-map{
         background-color: #1F3D77;
         color: white;
         padding: 15px;
+
     }
 
     .switch-field {
@@ -119,6 +123,7 @@ body{
     .form-control {
         padding: 0.5rem 0.75rem !important;
         border: 1px solid #1F3D77;
+        border-radius: 5px;
     }
     
     .input-group{
@@ -159,7 +164,11 @@ body{
         max-width: 100px;
         color:white;
 }
-
+.photo{
+    border: 1px solid EAF0FE;
+    border-radius: 5px;
+    padding: 20px;
+}
 .footerbar{
     display: flex;
        flex-direction: row-reverse;
