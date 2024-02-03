@@ -38,6 +38,7 @@ body{
         border: none;
         padding: 15px;
         width: 120px;
+        border-radius: 10px;
     }
     .btn-green{
         background-color: #179824;
@@ -64,6 +65,7 @@ body{
         color: white;
         padding: 15px;
         width: 120px;
+        border-radius: 10px;
     }
     .btn-map{
         background-color: #1F3D77;
