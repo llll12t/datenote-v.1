@@ -127,6 +127,10 @@ body{
     .input-group{
         display: flex;
         justify-content: space-between;
+        padding: 20px 5px;
+        border: 1px solid #eeeeee;
+        border-radius: 5px;
+}
     }
   
     .input-icons span {
