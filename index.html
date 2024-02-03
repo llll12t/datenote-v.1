@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +42,7 @@
 </head>
 
 <body>
-    <div class="container top-content">
+    <div class="container top-content bg-gradient-to-b from-gray-700 to-gray-900">
         <div style="color: white; font-weight: bold;font-size: 1.2rem;" class="p-2"><span>สวัสดี</span>
             <input type="text" id="displayName" name="displayName"
                 style="color:#ffffff;border: none; width:65%; background-color: rgba(255, 255, 255, 0);">
@@ -78,11 +79,11 @@
                 </div>
                 <div class="switch-field mt-4 mb-4">
                     <input type="radio" id="radio-three" name="switch-jop" value="เข้างาน" />
-                    <label for="radio-three">เข้างาน</label>
+                    <label style="margin: 5px 0;" for="radio-three">เข้างาน</label>
                     <input type="radio" id="radio-four" name="switch-jop" value="ระหว่างวัน" />
-                    <label for="radio-four">ระหว่างวัน</label>
+                    <label style="margin: 5px 0;"  for="radio-four">ระหว่างวัน</label>
                     <input type="radio" id="radio-five" name="switch-jop" value="ออกงาน" />
-                    <label for="radio-five">ออกงาน</label>
+                    <label style="margin: 5px 0;"  for="radio-five">ออกงาน</label>
                 </div>
                 <!-- Add a hidden input field to store the selected value -->
                 <input type="hidden" id="jobInput" name="jobInput" required>
@@ -99,11 +100,11 @@
         </div>
         <div id="step2" style="display: none;text-align: center;">
             <div class="photo" style="max-width:100%; width:640;height:420;">
-                <center><video id="camera-preview" width="70%" height="auto" autoplay playsinline
+                <center><video id="camera-preview" width="80%" height="auto" autoplay playsinline
                         poster="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019"></video>
                 </center>
                 <br>
-                <center><img id="preview" width="70%" height="auto" alt="" required> </center>
+                <img id="preview" width="70%" height="auto" alt="" required>
                 <div class="mb-4">
                     <button class="btn btn-yellow m-2" id="start-camera-btn">เริ่มเปิดกล้อง</button>
                     <button class="btn btn-green m-2" id="capture-btn" disabled>ถ่ายรูป</button>
