@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-in-out2</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Check-in-out</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,11 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    
 <script>
-    window.onload = function () {
-        initializeLiff(),getUserProfile();
-    };
+    // window.onload = function () {
+    //     initializeLiff(),getUserProfile();
+    // };
     async function initializeLiff() {
         await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
         if (liff.isLoggedIn()) {
@@ -40,12 +39,12 @@
 </script>
 </head>
 <body>
-    <div class="container p-4">
-        <div class="p-2"><span><b>สวัสดี</b></span>
-            <input type="text" id="displayName" name="displayName" style="color:#1F3D77;border: none; width:65%; background-color: rgba(255, 255, 255, 0);">
+    <div class="container top-content">
+        <div style="color: white; font-weight: bold;font-size: 1.2rem;" class="p-2"><span>สวัสดี</span>
+            <input type="text" id="displayName" name="displayName" style="color:#ffffff;border: none; width:65%; background-color: rgba(255, 255, 255, 0);">
         </div>
         <div class="banner mb-3">
-            <div class="imgband" style="max-width:35%;"> <img class="img-time" src="https://img.freepik.com/free-vector/time-management-concept-illustration_114360-1013.jpg?w=1380&t=st=1704593029~exp=1704593629~hmac=79f370776b7eaced7dff7753cd7125787425973b24a87f90f98f25bf767b62c2" alt=""> </div>
+            <div class="imgband"></div>
             <div class="daytime">
             <div id="date"></div>
             <div id="time"></div>
@@ -53,7 +52,9 @@
             <input type="time" id="currentTime" name="currentTime"  style="display: none;" >
             </div>
         </div>
-        
+    </div>
+    <div class="container buttom-content">
+
         <div id="step1">
             <div class="state p-2">
                 <div class="input-icons ">
@@ -68,7 +69,6 @@
                     <span class="material-symbols-outlined"> editor_choice </span>
                     <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง"  name="columnDData" required>
                 </div>
-				
                    <div class="switch-field mt-4 mb-4">
                     <input type="radio" id="radio-three" name="switch-jop" value="เข้างาน" />
                     <label for="radio-three">เข้างาน</label>
@@ -79,7 +79,7 @@
                 </div>
                 <!-- Add a hidden input field to store the selected value -->
                 <input type="hidden" id="jobInput" name="jobInput" required>
-                <textarea class="form-control" placeholder="Note" id="noteInput"></textarea><br>
+                <textarea class="form-control w-full" placeholder="Note" id="noteInput"></textarea><br>
             </div>
             <div class="footerbar">
             <button class="btn btn-blue mt-3" onclick="nextStep()">ถัดไป</button>
@@ -89,7 +89,7 @@
             <input type="text" id="columnAData" name="columnAData" style="display: none;"/>    
             </table> 
         </div>
-        <div id="step2" class="card p-4" style="display: none;text-align: center;">
+        <div id="step2" style="display: none;text-align: center;">
             <div class="photo" style="max-width:100%; width:640;height:420;">
                 <center><video id="camera-preview" width="70%" height="auto" autoplay playsinline poster="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019"></video></center>
                 <br>
@@ -105,9 +105,9 @@
             <button class="btn btn-blue m-2" onclick="checkPictureAndNextStep()">ถัดไป</button>
         </div>
     </div>
-        <div id="step3" class="card p-4" style="display: none;text-align: center;">
+        <div id="step3" style="display: none;text-align: center;">
             <div class="submit">
-                <div class="p-2 mb-2">
+                <div class="p-2 mb-2"> 
                 <button type="button" onclick="getLocation()" class="btn btn-map">กดเพื่อยืนยันที่อยู่ของคุณ</button></div>
                 <div id="locationInfo" name="locationInfo">
                     <p id="latitude">Latitude: </p>
@@ -127,11 +127,6 @@
             </div>
         </div>
     </div>
-    <!-- Add Bootstrap JS and Popper.js (required for some Bootstrap components) -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
     <script>
         let url = "https://script.google.com/macros/s/AKfycbyBZA3jw1LsxSprE-Z7tZGsd8tsarhRoQdphtoko6SrJd5mkMCrlrU3fzNAx0w4Wl1m/exec";
         let video = document.getElementById('video');
@@ -200,7 +195,7 @@
             });
             }
         });
-	 function checkPictureAndNextStep() {
+	    function checkPictureAndNextStep() {
         // Check if a picture has been taken
         const capturedImage = document.getElementById('preview').src;
         if (!capturedImage || capturedImage.includes('No-Image-Placeholder')) {
@@ -489,7 +484,6 @@
     }
     </script>
 <script>
-       
             function updateDateTime() {
                 const dateElement = document.getElementById('date');
                 const timeElement = document.getElementById('time');
