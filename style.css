@@ -1,3 +1,4 @@
+
 body{
     font-family: 'Noto Sans Thai', sans-serif;  
     font-size:1rem
@@ -37,7 +38,6 @@ body{
         border: none;
         padding: 15px;
         width: 120px;
-        border-radius: 10px;
     }
     .btn-green{
         background-color: #179824;
@@ -64,7 +64,6 @@ body{
         color: white;
         padding: 15px;
         width: 120px;
-        border-radius: 10px;
     }
     .btn-map{
         background-color: #1F3D77;
@@ -97,7 +96,6 @@ body{
         transition: all 0.1s ease-in-out;
         border: 1px solid #EAF0FE;
         border-radius:5px;
-        margin: 5px 0;
 
     }
     .switch-field label:hover {
@@ -120,15 +118,12 @@ body{
 
     .form-control {
         padding: 0.5rem 0.75rem !important;
-        border: 1px solid #364665;
-        border-radius: 10px;
+        border: 1px solid #1F3D77;
     }
     
     .input-group{
         display: flex;
         justify-content: space-between;
- 
-}
     }
   
     .input-icons span {
