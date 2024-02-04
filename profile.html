@@ -42,23 +42,43 @@
 </head>
 
 <body>
-    <div class="input-icons ">
-        <span class="material-symbols-outlined"> co_present </span>
-        <input type="text" class="input-field" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
+    <div class="state p-2">
+        <div class="input-icons ">
+            <span class="material-symbols-outlined"> co_present </span>
+            <input type="text" class="input-field" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData"
+                required>
+        </div>
+        <div class="input-icons ">
+            <span class="material-symbols-outlined">pin</span>
+            <input type="text" class="input-field" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput"
+                required>
+        </div>
+        <div class="input-icons ">
+            <span class="material-symbols-outlined"> editor_choice </span>
+            <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData"
+                required>
+        </div>
+        <div class="switch-field mt-4 mb-4">
+            <input type="radio" id="radio-three" name="switch-jop" value="เข้างาน" />
+            <label style="margin: 5px 0;" for="radio-three">เข้างาน</label>
+            <input type="radio" id="radio-four" name="switch-jop" value="ระหว่างวัน" />
+            <label style="margin: 5px 0;"  for="radio-four">ระหว่างวัน</label>
+            <input type="radio" id="radio-five" name="switch-jop" value="ออกงาน" />
+            <label style="margin: 5px 0;"  for="radio-five">ออกงาน</label>
+        </div>
+        <!-- Add a hidden input field to store the selected value -->
+        <input type="hidden" id="jobInput" name="jobInput" required>
+        <textarea class="form-control w-full" placeholder="Note" id="noteInput"></textarea><br>
     </div>
-    <div class="input-icons ">
-        <span class="material-symbols-outlined">pin</span>
-        <input type="text" class="input-field" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput" required>
+    <div class="footerbar py-4">
+        <button class="btn btn-blue mt-3" onclick="nextStep()">ถัดไป</button>
     </div>
-    <div class="input-icons ">
-        <span class="material-symbols-outlined"> editor_choice </span>
-        <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
-    </div>
-    <table id="data-table">
-    <input type=" text" id="userId" name="userId" oninput="searchData()" />
-    <input type="text" id="columnAData" name="columnAData" />
-
+    <table id="data-table" style="color: black; position: absolute;z-index: -9999;">
+        <input type="text" id="userId" name="userId" oninput="searchData()"
+            style="color:#fff; border: 1px solid #fff; position: absolute; z-index: -99;" />
+        <input type="text" id="columnAData" name="columnAData" style="display: none;" />
     </table>
+</div>
     </div>
 
 
