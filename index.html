@@ -92,11 +92,16 @@
             <div class="footerbar py-4">
                 <button class="btn btn-blue mt-3" onclick="nextStep()">ถัดไป</button>
             </div>
-            <table id="data-table" style="color: black; position: absolute;z-index: -9999;">
-                <input type="text" id="userId" name="userId" oninput="searchData()"
-                    style="color:#fff; border: 1px solid #fff; position: absolute; z-index: -99;" />
-                <input type="text" id="columnAData" name="columnAData" style="display: none;" />
-            </table>
+            
+            <div id="parentDiv" style="display: none;">
+                <input type="text" id="displayName" name="displayName" style="visibility: visible;">
+               
+                <table id="data-table" style="visibility: visible;">
+                    <input type="text" id="userId" name="userId" oninput="searchData()" style="visibility: visible;" />
+                    <input type="text" id="columnAData" name="columnAData" style="display: none;"/>
+                </table> 
+            </div>
+
         </div>
         <div id="step2" style="display: none;text-align: center;">
             <div class="photo" style="max-width:100%; width:640;height:420;">
