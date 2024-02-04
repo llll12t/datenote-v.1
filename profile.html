@@ -1,91 +1,124 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-in-out</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-    <script>
-        window.onload = function () {
-            initializeLiff(),getUserProfile();
-        };
-        async function initializeLiff() {
-            await liff.init({ liffId: '2002290922-MyEAgJop' }); // Replace with your LIFF ID
-            if (liff.isLoggedIn()) {
-                getUserProfile();
-            } else {
-                liff.login();
-            }
-        }
-        async function getUserProfile() {
-            try {
-                const profile = await liff.getProfile();
-                document.getElementById('userId').value = profile.userId;
-                document.getElementById('displayName').value = profile.displayName;
-                // Trigger search when user ID is retrieved
-                searchData();
-            } catch (error) {
-                console.error('Error getting profile data:', error);
-            }
-        }
-    </script>
+    <title>ข้อมูลส่วนตัว</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
+<script>
+    window.onload = function () {
+        initializeLiff(),getUserProfile();
+    };
+    async function initializeLiff() {
+        await liff.init({ liffId: '2002290922-MyEAgJop' }); // Replace with your LIFF ID
+        if (liff.isLoggedIn()) {
+            getUserProfile();
+        } else {
+            liff.login();
+        }
+    }
+    async function getUserProfile() {
+        try {
+            const profile = await liff.getProfile();
+            document.getElementById('userId').value = profile.userId;
+            document.getElementById('displayName').value = profile.displayName;
+            // Trigger search when user ID is retrieved
+            searchData();
+        } catch (error) {
+            console.error('Error getting profile data:', error);
+        }
+    }
+</script>
+<body class="bg-gray-50">
+    <div class="mx-auto right-0 mt-5 w-full p-8">
+        <div class="bg-white rounded overflow-hidden shadow-lg">
+            <div class="text-center p-6 bg-gray-800 border-b">
+                <svg aria-hidden="true" role="img" class="h-24 w-24 text-white rounded-full mx-auto" width="32"
+                    height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
+                    <path fill="currentColor"
+                        d="M172 120a44 44 0 1 1-44-44a44 44 0 0 1 44 44Zm60 8A104 104 0 1 1 128 24a104.2 104.2 0 0 1 104 104Zm-16 0a88 88 0 1 0-153.8 58.4a81.3 81.3 0 0 1 24.5-23a59.7 59.7 0 0 0 82.6 0a81.3 81.3 0 0 1 24.5 23A87.6 87.6 0 0 0 216 128Z">
+                    </path>
+                </svg>
+                <p class="pt-2 text-lg font-semibold text-gray-50">
+                    <input type="text" class="input-field text-center  bg-gray-800 border-b" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
+                </p>
+                <p class="text-sm text-gray-100">
+                    <input type="text" class="input-field bg-gray-800 text-center p-2" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput" required>
+                </p>
+                <p class="text-sm text-gray-100">
+                    <input type="text" class="input-field bg-gray-800 text-center p-2" id="columnDData" placeholder="ตำแหน่ง" name="columnDData"required>
+                </p>
+            </div>
+            <div class="divide-y divide-slate-700">
+                <Link href="/account/campaigns">
+                <a class="px-4 py-6 hover:bg-gray-100 flex">
+                    <div class="text-green-600">
+                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                            strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
+                            <path
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <div class="pl-3">
+                        <p class="text-sm font-medium text-gray-800 leading-none">
+                            ลาพักร้อน
+                        </p>
+                        <p class="text-xs text-gray-500">N/A วัน</p>
+                    </div>
+                </a>
+                </Link>
+                <Link href="/account/campaigns">
+                <a class="px-4 py-6 hover:bg-gray-100 flex">
+                    <div class="text-green-600">
+                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                            strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
+                            <path
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <div class="pl-3">
+                        <p class="text-sm font-medium text-gray-800 leading-none">
+                            ลากิจ
+                        </p>
+                        <p class="text-xs text-gray-500">N/A วัน</p>
+                    </div>
+                </a>
+                </Link>
+                <div class="">
+                    <Link href="/account/campaigns">
+                    <a class="px-4 py-6 hover:bg-gray-100 flex">
+                        <div class="text-green-600">
+                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
+                                <path
+                                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <div class="pl-3">
+                            <p class="text-sm font-medium text-gray-800 leading-none">
+                                ลาป่วย
+                            </p>
+                            <p class="text-xs text-gray-500">N/A วัน</p>
+                        </div>
+                    </a>
+                    </Link>
+                </div>
+            </div>
+           
+            </div>
+           
 
-<body>
-    <div class="state p-2">
-        <div class="input-icons ">
-            <span class="material-symbols-outlined"> co_present </span>
-            <input type="text" class="input-field" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData"
-                required>
         </div>
-        <div class="input-icons ">
-            <span class="material-symbols-outlined">pin</span>
-            <input type="text" class="input-field" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput"
-                required>
-        </div>
-        <div class="input-icons ">
-            <span class="material-symbols-outlined"> editor_choice </span>
-            <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData"
-                required>
-        </div>
-        <div class="switch-field mt-4 mb-4">
-            <input type="radio" id="radio-three" name="switch-jop" value="เข้างาน" />
-            <label style="margin: 5px 0;" for="radio-three">เข้างาน</label>
-            <input type="radio" id="radio-four" name="switch-jop" value="ระหว่างวัน" />
-            <label style="margin: 5px 0;"  for="radio-four">ระหว่างวัน</label>
-            <input type="radio" id="radio-five" name="switch-jop" value="ออกงาน" />
-            <label style="margin: 5px 0;"  for="radio-five">ออกงาน</label>
-        </div>
-        <!-- Add a hidden input field to store the selected value -->
-        <input type="hidden" id="jobInput" name="jobInput" required>
-        <textarea class="form-control w-full" placeholder="Note" id="noteInput"></textarea><br>
-    </div>
-    <div class="footerbar py-4">
-        <button class="btn btn-blue mt-3" onclick="nextStep()">ถัดไป</button>
-    </div>
-    <table id="data-table" style="color: black; position: absolute;z-index: -9999;">
-        <input type="text" id="userId" name="userId" oninput="searchData()"
-            style="color:#000000; border: 1px solid #fff; position: absolute; z-index: -99;" />
-        <input type="text" id="columnAData" name="columnAData" style="display: none;" />
-    </table>
-</div>
-    </div>
-
-
-    </div>
-    </div>
+        <div style="display:none;">
+        <input type="text" id="userId" name="userId" oninput="searchData()" />
+        <table id="data-table"></table>
+        <table id="data-table" style="color: black; position: absolute;z-index: -9999;">
+            <input type="text" id="userId" name="userId" oninput="searchData()"
+                style="color:#000000; border: 1px solid #fff; position: absolute; z-index: -99;" />
+            <input type="text" id="columnAData" name="columnAData" style="display: none;" />
+        </table>
+     </div>
     <script>
-
-
         // Replace YOUR_API_KEY with your actual API key
         const apimapKey = 'AIzaSyB89WSrfZKA_uP9UslXs8Bo7y90PYzbpD4';
         // Replace YOUR_SPREADSHEET_ID with your actual Google Sheets ID
@@ -159,5 +192,4 @@
 
     </script>
 </body>
-
 </html>
