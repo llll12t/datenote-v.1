@@ -110,15 +110,14 @@
            
 
         </div>
-        <div style="visibility: hidden; width: 100%;">
-            <input type="text" id="displayName" name="displayName" style="color:#1F3D77;border: none; width:65%; background-color: rgba(255, 255, 255, 0);">
-       
-            <table id="data-table">
-            <input type="text" id="userId" name="userId" oninput="searchData()" />
-            <input type="text" id="columnAData" name="columnAData" style="display: none;"/>    
+        <div id="parentDiv" style="display: none;">
+            <input type="text" id="displayName" name="displayName" style="visibility: visible;">
+           
+            <table id="data-table" style="visibility: visible;">
+                <input type="text" id="userId" name="userId" oninput="searchData()" style="visibility: visible;" />
+                <input type="text" id="columnAData" name="columnAData" style="display: none;"/>
             </table> 
-
-        <div>
+        </div>
         
         <table id="data-table" >
         </table>
