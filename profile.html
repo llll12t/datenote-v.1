@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ข้อมูลส่วนตัว</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-       <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
 </head>
 <script>
     window.onload = function () {
@@ -112,9 +112,10 @@
         </div>
         <div>
         
-        <table id="data-table">
-            <input type="text" id="userId" name="userId" oninput="searchData()"/>
-            <input type="text" id="columnAData" name="columnAData" style="display: none;" />
+        <table id="data-table" style="color: black;">
+                <!-- Add the oninput attribute with the searchData function -->
+                <input type="text" id="userId" name="userId" oninput="searchData()" />
+                <input type="text" id="columnAData" name="columnAData" style="display: none;" />
         </table>
      </div>
     <script>
