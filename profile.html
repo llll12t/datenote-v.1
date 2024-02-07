@@ -189,9 +189,11 @@
                         const columnFData = rows[i].getElementsByTagName('td')[5].textContent || rows[i].getElementsByTagName('td')[1].innerText;
                         columnFDataInput.value = columnFData;
                         
-                        const columnGDataInput = document.getElementById('columnGData');
+                       const columnGDataInput = document.getElementById('columnGData');
                         const columnGData = rows[i].getElementsByTagName('td')[6].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                        columnGDataInput.value = columnGData;
+                        columnGDataInput.src = columnGData;  // Assuming columnGData contains the image URL
+                        columnGDataInput.alt = "image";
+
                         
                         break;
                     }
