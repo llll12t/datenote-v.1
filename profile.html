@@ -32,7 +32,7 @@
 </script>
 <body class="bg-gray-50">
     <div class="mx-auto right-0 mt-5 w-full p-8">
-        <div class="bg-white rounded overflow-hidden shadow-lg">
+        <div class="mx-auto bg-white max-w-sm rounded-lg overflow-hidden shadow-lg">
             <div class="text-center p-6 bg-gray-800 border-b">
                 <svg aria-hidden="true" role="img" class="h-24 w-24 text-white rounded-full mx-auto" width="32"
                     height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 256">
@@ -50,7 +50,7 @@
                     <input type="text" class="input-field bg-gray-800 text-center p-2" id="columnDData" placeholder="ตำแหน่ง" name="columnDData"required>
                 </p>
             </div>
-            <div class="divide-y divide-slate-700">
+            <!-- <div class="divide-y divide-slate-700">
                 <Link href="/account/campaigns">
                 <a class="px-4 py-6 hover:bg-gray-100 flex">
                     <div class="text-green-600">
@@ -104,21 +104,16 @@
                     </a>
                     </Link>
                 </div>
+            </div> -->
             </div>
-           
-            </div>
-           
-
         </div>
         <div id="parentDiv" style="display: none;">
             <input type="text" id="displayName" name="displayName" style="visibility: visible;">
-           
             <table id="data-table" style="visibility: visible;">
                 <input type="text" id="userId" name="userId" oninput="searchData()" style="visibility: visible;" />
                 <input type="text" id="columnAData" name="columnAData" style="display: none;"/>
             </table> 
         </div>
-        
         <table id="data-table" >
         </table>
      </div>
