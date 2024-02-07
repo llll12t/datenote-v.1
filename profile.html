@@ -45,13 +45,7 @@
                     <p class="text-sm text-gray-100">
                         <input type="text" class="input-field text-lg bg-white bg-opacity-0 p-2 text-green-100" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
                     </p>
-                    <p class="text-sm text-gray-100">
-                        <input type="text" class="input-field text-lg bg-white bg-opacity-0 p-2 text-green-100" id="columnEData" placeholder="ตำแหน่ง" name="columnEData" required>
-                    </p>
-                    <p class="text-sm text-gray-100">
-                        <input type="text" class="input-field text-lg bg-white bg-opacity-0 p-2 text-green-100" id="columnFData" placeholder="ตำแหน่ง" name="columnFData" required>
-                    </p>
-                 
+           
                 </div>
             </div>
             
@@ -180,14 +174,6 @@
                         const columnDDataInput = document.getElementById('columnDData');
                         const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
                         columnDDataInput.value = columnDData;
-
-                        const columnEDataInput = document.getElementById('columnEData');
-                        const columnEData = rows[i].getElementsByTagName('td')[4].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                        columnEDataInput.value = columnEData;
-
-                        const columnFDataInput = document.getElementById('columnFData');
-                        const columnFData = rows[i].getElementsByTagName('td')[5].textContent || rows[i].getElementsByTagName('td')[1].innerText;
-                        columnFDataInput.value = columnFData;
                         
                        const columnGDataInput = document.getElementById('columnGData');
                         const columnGData = rows[i].getElementsByTagName('td')[6].textContent || rows[i].getElementsByTagName('td')[1].innerText;
