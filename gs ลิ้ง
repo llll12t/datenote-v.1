@@ -1,0 +1,99 @@
+var SPREADSHEET_ID = '1DkCnmGVYMjf66tarSX1EA5zm1mDL_0ACYNx2AAa5J6g';
+var FOLDER_ID = '1OGk9hug8K8c8VnpLCynj2uZl8HATJZ-k';
+var SHEET_NAME = 'DATA';
+var SPREADSHEET_ID_MEMBER = '1DkCnmGVYMjf66tarSX1EA5zm1mDL_0ACYNx2AAa5J6g';
+var SHEET_NAME_MEMBER = 'MEMBER';
+var LINE_NOTIFY_TOKEN = 'Rke3b7K8Qgslvoupuij3foPCbo4V4CRicRlAvWRJHEu';
+
+function sendLineNotifyMessage(message, link) {
+  var url = 'https://notify-api.line.me/api/notify';
+  var headers = {
+    'Authorization': 'Bearer ' + LINE_NOTIFY_TOKEN,
+  };
+  var payload = {
+    'message': message + '\n' + 'Google Maps Link: ' + link,
+  };
+  var options = {
+    'method': 'post',
+    'headers': headers,
+    'payload': payload,
+  };
+  UrlFetchApp.fetch(url, options);
+}
+
+function generateGoogleMapsLink(lat, long) {
+  // Construct the Google Maps link with the specified latitude and longitude
+  var mapsLink = 'https://www.google.com/maps?q=' + lat + ',' + long;
+  return mapsLink;
+}
+
+function doPost(e) {
+  try {
+    var sheet;
+
+    let obj = JSON.parse(e.postData.contents);
+
+    if (obj.hasOwnProperty('nameId')) {
+      // This block handles the first case (image upload)
+      sheet = SpreadsheetApp.openById(SPREADSHEET_ID_MEMBER).getSheetByName(SHEET_NAME_MEMBER);
+
+      // Additional data extraction
+      let userlineId = obj.userlineId;
+      let nameId = obj.nameId;
+      let numberId = obj.numberId;
+      let roleId = obj.roleId;
+
+      // Decoding base64 data
+      let decodedData = Utilities.base64Decode(obj.base64);
+      let blob = Utilities.newBlob(decodedData, obj.type, obj.name);
+
+      // Creating file in Google Drive
+      let folderId = '1MI4xBNBuiK228b5sPp9DsBXOP-tVXpiO';
+      let folder = DriveApp.getFolderById(folderId);
+      let newFile = folder.createFile(blob);
+      let link = newFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW).getDownloadUrl();
+
+      // Getting the last row in the sheet
+      let lr = sheet.getLastRow();
+
+      // Setting values in additional columns for nameid, numberid, and roleid
+      sheet.getRange(lr + 1, 1).setValue(userlineId);
+      sheet.getRange(lr + 1, 2).setValue(nameId);
+      sheet.getRange(lr + 1, 3).setValue(numberId);
+      sheet.getRange(lr + 1, 4).setValue(roleId);
+      sheet.getRange(lr + 1, 5).setValue(link);
+
+      // Calling changeRichMenu() immediately
+      changeRichMenu();
+
+      // Returning success message
+      return ContentService.createTextOutput("image uploaded");
+    } else {
+      // This block handles the second case (Line notification)
+      sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
+
+      var data = obj; // Assuming 'data' is used to represent Line notification data
+
+      // Update spreadsheet
+      if (!sheet) {
+        sheet = SpreadsheetApp.openById(SPREADSHEET_ID).insertSheet(SHEET_NAME);
+        sheet.appendRow(['Timestamp', 'Image URL', 'name', 'role', 'job', 'note', 'today', 'time', 'address', 'lat', 'long', 'user']);
+      }
+
+      // Generate Google Maps link
+      var mapsLink = generateGoogleMapsLink(data.lat, data.long);
+
+      // Create Line notification message
+      var formattedDate = Utilities.formatDate(new Date(data.today), 'GMT+7', 'dd/MM/yyyy');
+      var basicMessage = '\n⏰ บันทึกเวลา: ' + data.job + '\n👤 ชื่อ: ' + data.name + '\n💼 เลขที่พนักงาน: ' + data.role + '\n📝 หมายเหตุ: ' + data.note + '\n📅 วันที่: ' + formattedDate + '\n🕒 เวลา: ' + data.time + '\n🏠 ที่อยู่: ' + data.address;
+
+      // Send Line notification with Google Maps link
+      sendLineNotifyMessage(basicMessage, mapsLink);
+
+      return ContentService.createTextOutput('Success').setMimeType(ContentService.MimeType.TEXT);
+    }
+  } catch (error) {
+    console.error(error);
+    return ContentService.createTextOutput('Error').setMimeType(ContentService.MimeType.TEXT);
+  }
+}
