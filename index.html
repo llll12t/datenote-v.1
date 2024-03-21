@@ -328,6 +328,14 @@ async function initializeLiff() {
 }
 
 async function sendFlexMessage() {
+    let jobColor = '';
+    if (jobInput.value === 'เข้างาน') {
+        jobColor = '#0D9608FF'; // Green color
+    } else if (jobInput.value === 'ออกงาน') {
+        jobColor = '#EF2F14FF'; // Red color
+    } else {
+        jobColor = '#000000FF'; // Default color if neither "เข้างาน" nor "ออกงาน"
+    }
     const flexMessage = {
         type: 'flex',
         altText: 'จดบันทึกเวลางาน',
@@ -357,7 +365,7 @@ async function sendFlexMessage() {
                                 text: ` ${jobInput.value}`,
                                 weight: 'bold',
                                 size: 'md',
-                                color: '#0D9608FF',
+                                color: jobColor, // Dynamic color
                                 align: 'end',
                                 contents: [],
                             },
