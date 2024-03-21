@@ -471,7 +471,7 @@ async function sendFlexMessage() {
                         type: 'separator',
                     },
                     {
-                        type: 'box',
+                         type: 'box',
                         layout: 'vertical',
                         spacing: 'xs',
                         margin: 'sm',
@@ -486,7 +486,7 @@ async function sendFlexMessage() {
                             },
                             {
                                 type: 'text',
-                                text: `${fullAddressInput.value}`,
+                                text: fullAddressInput.value ? `${fullAddressInput.value}` : 'ข้อมูลไม่สามารถใช้ได้',
                                 wrap: true,
                                 contents: [],
                             },
