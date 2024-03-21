@@ -129,10 +129,10 @@
                     <p id="latitude">Latitude: </p>
                     <p id="longitude">Longitude: </p>
                 </div>
-                <p id="fullAddress">สถานที่</p>
+                <p id="fullAddress2">สถานที่</p>
                 <input type="hidden" id="latitudeInput" name="latitudeInput">
                 <input type="hidden" id="longitudeInput" name="longitudeInput">
-                <input type="hidden" id="fullAddressInput" name="fullAddressInput" required>
+                <input type="hidden" id="fullAddressInput" name="fullAddressInput" >
             </div>
             <br>
             <!-- Add iframe for displaying Google Maps -->
@@ -146,22 +146,21 @@
     </div>
     </div>
     <script >
-        
-let url ="https://script.google.com/macros/s/AKfycbwgBG7NoalzlL_6z1HVkdv64_JOCW1gHt1aIYk-w2Nl4_LQm5xBu2fm6iC6eiYWNmdZ/exec";
-let video = document.getElementById('video');
-let canvas = document.getElementById('canvas');
-let columnBData = document.querySelector("#columnBData");
-let roleInput = document.querySelector("#roleInput");
-let jobInput = document.querySelector("#jobInput");
-let noteInput = document.querySelector("#noteInput");
-let todayInput = document.querySelector("#todayInput");
-let currentTime = document.querySelector("#currentTime");
-let latitudeInput = document.querySelector("#latitudeInput");
-let longitudeInput = document.querySelector("#longitudeInput");
-let fullAddressInput = document.querySelector("#fullAddressInput");
-let userId = document.querySelector("#userId");
-let preview = document.getElementById('preview');
-document.addEventListener("DOMContentLoaded", function () {
+    let url ="https://script.google.com/macros/s/AKfycbwgBG7NoalzlL_6z1HVkdv64_JOCW1gHt1aIYk-w2Nl4_LQm5xBu2fm6iC6eiYWNmdZ/exec";
+    let video = document.getElementById('video');
+    let canvas = document.getElementById('canvas');
+    let columnBData = document.querySelector("#columnBData");
+    let roleInput = document.querySelector("#roleInput");
+    let jobInput = document.querySelector("#jobInput");
+    let noteInput = document.querySelector("#noteInput");
+    let todayInput = document.querySelector("#todayInput");
+    let currentTime = document.querySelector("#currentTime");
+    let latitudeInput = document.querySelector("#latitudeInput");
+    let longitudeInput = document.querySelector("#longitudeInput");
+    let fullAddressInput = document.querySelector("#fullAddressInput");
+    let userId = document.querySelector("#userId");
+    let preview = document.getElementById('preview');
+    document.addEventListener("DOMContentLoaded", function () {
     const video = document.getElementById("camera-preview");
     const startCameraBtn = document.getElementById("start-camera-btn");
     const captureBtn = document.getElementById("capture-btn");
