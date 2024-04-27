@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export In-Out</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 container mx-auto right-0 mt-5 w-full p-10">
+    <div class="overflow-x-auto">
+        <!-- ฟิลด์อินพุตสำหรับตัวกรองคอลัมน์ B -->
+        <div class="flex justify-center mt-4">
+            <label for="filterB" class="mr-2">ค้นหาชื่อ:</label>
+            <input type="text" id="filterB"
+                class="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <!-- ฟิลด์อินพุตสำหรับตัวกรองคอลัมน์ C -->
+        <div class="flex justify-center mt-4">
+            <label for="filterC" class="mr-2">ค้นหารหัสพนักงาน:</label>
+            <input type="text" id="filterC"
+                class="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <!-- Rows per page select -->
+        <div class="flex justify-center mt-4">
+            <label for="rowsPerPage" class="mr-2">Rows per page:</label>
+            <select id="rowsPerPage"
+                class="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <table class="table-auto w-full mt-4">
+            <thead>
+                <tr>
+                    <!-- Add your column headers here -->
+                    <th class="px-4 py-2">รูปภาพ</th>
+                    <th class="px-4 py-2">ชื่อ-สกุล</th>
+                    <th class="px-4 py-2">รหัสพนักงาน</th>
+                    <th class="px-4 py-2">บันทึก</th>
+                    <th class="px-4 py-2">วันที่</th>
+                    <th class="px-4 py-2">เวลา</th>
+                    <th class="px-4 py-2">ที่อยู่</th>
+                    <!-- Add more headers if needed -->
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- ปุ่มควบคุมการนำทาง -->
+        <div class="flex justify-center mt-4">
+            <button id="prevPageBtn"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l focus:outline-none focus:shadow-outline">
+                Previous
+            </button>
+            <span id="paginationText" class="bg-gray-200 text-gray-800 font-bold py-2 px-4"></span>
+            <button id="nextPageBtn"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <!-- รวม jQuery และ Moment.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // กำหนดรหัส spreadsheet และ key
+            const SPREADSHEET_ID = '1DkCnmGVYMjf66tarSX1EA5zm1mDL_0ACYNx2AAa5J6g';
+            const API_KEY = 'AIzaSyB89WSrfZKA_uP9UslXs8Bo7y90PYzbpD4';
+            const sheetName = 'main'; // เปลี่ยนเป็นชื่อ sheet ของคุณ
+
+            const googleSheetsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${sheetName}?key=${API_KEY}`;
+
+            fetch(googleSheetsUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // กำหนดตัวแปรสำหรับใช้ในฟังก์ชันต่าง ๆ
+                    const tableBody = $('#tableBody');
+                    const rowsPerPageSelect = $('#rowsPerPage');
+                    const filterB = $('#filterB');
+                    const filterC = $('#filterC'); // New
+                    const paginationText = $('#paginationText');
+                    let currentPage = 1;
+                    let rowsPerPage = parseInt(rowsPerPageSelect.val());
+                    const totalRows = data.values.length;
+                    let totalPages = Math.ceil(totalRows / rowsPerPage);
+
+                    // ฟังก์ชันกรองข้อมูล
+                    function filterData() {
+                        const filterValueB = filterB.val().toLowerCase();
+                        const filterValueC = filterC.val().toLowerCase(); // New
+                        tableBody.empty();
+
+                        // เริ่มต้นการกรองข้อมูล
+                        let filteredData = data.values.filter(row => {
+                            const colB = row[1].toLowerCase();
+                            const colC = row[2].toLowerCase(); // New
+                            return colB.includes(filterValueB) && colC.includes(filterValueC); // Updated
+                        });
+
+                        // เรียกใช้ฟังก์ชันแสดงข้อมูล
+                        displayData(0, rowsPerPage, filteredData);
+                    }
+
+                    // ฟังก์ชันแสดงข้อมูล
+                    function displayData(startIndex, endIndex, filteredData = data.values) {
+                        tableBody.empty();
+
+                        // ตั้งค่า startIndex ให้เริ่มที่ row 2 (เริ่มจาก 1)
+                        startIndex = Math.max(1, startIndex);
+
+                        // แสดงข้อมูล
+                        for (let i = startIndex; i < endIndex && i < filteredData.length; i++) {
+                            const row = filteredData[i];
+                            const tr = $('<tr>');
+
+                            row.forEach((cell, index) => {
+                                const td = $('<td>').addClass('border px-4 py-2');
+
+                                // หากเป็นคอลัมน์ที่มีภาพ
+                                if (index === 0) { // หากต้องการเริ่มที่คอลัมน์ B (index 1)
+                                    const img = $('<img>').attr('src', cell).addClass('w-10 h-10 object-cover rounded-full');
+                                    td.append(img);
+                                } else {
+                                    td.text(cell);
+                                }
+
+                                tr.append(td);
+                            });
+
+                            tableBody.append(tr);
+                        }
+
+                        // อัปเดตข้อความในการควบคุมการนำทาง
+                        const currentPage = Math.ceil(startIndex / rowsPerPage) + 1;
+                        const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+                        paginationText.text(`Page ${currentPage} of ${totalPages}`);
+                    }
+
+
+                    // ฟังก์ชันควบคุมการนำทาง
+                    function prevPage() {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            const startIndex = (currentPage - 1) * rowsPerPage;
+                            const endIndex = startIndex + rowsPerPage;
+                            displayData(startIndex, endIndex);
+                        }
+                    }
+
+                    function nextPage() {
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            const startIndex = (currentPage - 1) * rowsPerPage;
+                            const endIndex = startIndex + rowsPerPage;
+                            displayData(startIndex, endIndex);
+                        }
+                    }
+
+                    function changeRowsPerPage() {
+                        rowsPerPage = parseInt(rowsPerPageSelect.val());
+                        totalPages = Math.ceil(totalRows / rowsPerPage);
+                        currentPage = 1; // เริ่มที่หน้าแรก
+                        filterData();
+                    }
+
+                    // ผูกเหตุการณ์กับฟังก์ชันต่าง ๆ
+                    $('#prevPageBtn').on('click', prevPage);
+                    $('#nextPageBtn').on('click', nextPage);
+                    rowsPerPageSelect.on('change', changeRowsPerPage);
+                    filterB.on('input', filterData);
+                    filterC.on('input', filterData); // New
+
+                    // เริ่มต้นแสดงข้อมูล
+                    displayData(0, rowsPerPage);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+
+</body>
+
+</html>
