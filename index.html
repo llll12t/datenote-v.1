@@ -232,89 +232,47 @@ function checkPictureAndNextStep() {
 function submitForm() {
     // Check if required fields are filled
     if (!columnBData.value || !roleInput.value || !jobInput.value || !latitudeInput.value || !longitudeInput.value) {
-        Swal.fire({
-            title: 'แจ้งเตือน!',
-            text: 'กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน',
-            icon: 'warning',
-            confirmButtonText: 'OK',
-        });
-        return; // Stop the submission if required fields are not filled
+        alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน');
+        return;
     }
-    // Ask for confirmation before submission
-    Swal.fire({
-        title: 'ยืนยันการส่งข้อมูล',
-        text: 'คุณแน่ใจหรือไม่ที่ต้องการส่งข้อมูล?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'ยืนยัน',
-        cancelButtonText: 'ยกเลิก',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Disable the submit button to prevent multiple submissions
-            document.getElementById('submitButton').disabled = true;
-            // Display uploading message
-            Swal.fire({
-                title: 'กำลังบันทึกข้อมูล',
-                text: 'กรุณารอสักครู่...',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            let spt = preview.src.split("base64,")[1];
-            let obj = {
-                base64: spt,
-                name: columnBData.value,
-                role: roleInput.value,
-                job: jobInput.value,
-                note: noteInput.value,
-                today: todayInput.value,
-                time: currentTime.value,
-                lat: latitudeInput.value,
-                long: longitudeInput.value,
-                address: fullAddressInput.value,
-                user: userId.value
-            };
-            fetch(url, {
-                method: "POST",
-                body: JSON.stringify(obj),
-            })
-                .then(response => response.text())
-                .then(data => {
-                    // Close the uploading message
-                    Swal.close();
-                    // Display success message
-                    Swal.fire({
-                        title: 'สำเร็จ!',
-                        text: 'บันทึกข้อมูลของคุณเรียบร้อย!',
-                        icon: 'success',
-                        confirmButtonText: 'ปิด',
-                    }).then(() => {
-                        // Close LIFF (Line Front-end Framework)
-                        sendFlexMessage();
-                        console.log(data);
-                    });
-                })
-                .catch(error => {
-                    // Close the uploading message
-                    Swal.close();
-                    // Display error message
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Form submission failed. Please try again.',
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                    }).then(() => {
-                        // Re-enable the submit button in case of an error
-                        document.getElementById('submitButton').disabled = false;
-                    });
-                    console.error(error);
-                });
-        }
+    
+    // Confirm submission
+    const userConfirmed = confirm('คุณแน่ใจหรือไม่ที่ต้องการส่งข้อมูล?');
+    
+    if (!userConfirmed) {
+        return;
+    }
+
+    // บันทึกข้อมูล
+    let spt = preview.src.split("base64,")[1];
+    let obj = {
+        base64: spt,
+        name: columnBData.value,
+        role: roleInput.value,
+        job: jobInput.value,
+        note: noteInput.value,
+        today: todayInput.value,
+        time: currentTime.value,
+        lat: latitudeInput.value,
+        long: longitudeInput.value,
+        address: fullAddressInput.value,
+        user: userId.value
+    };
+    
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(obj),
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert('บันทึกข้อมูลของคุณเรียบร้อย!');
+        sendFlexMessage();
+    })
+    .catch(error => {
+        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล โปรดลองอีกครั้ง');
+        console.error(error);
     });
 }
-
 
 
 async function initializeLiff() {
