@@ -11,6 +11,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
+    <!-- CSS สำหรับปรับสไตล์ของ popup -->
+<style>
+    .loading-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* สีพื้นหลังที่โปร่งแสง */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* ให้ popup อยู่ด้านบนสุด */
+    }
+
+    .loading-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
@@ -134,10 +157,12 @@
                 <input type="hidden" id="longitudeInput" name="longitudeInput">
                 <input type="hidden" id="fullAddressInput" name="fullAddressInput" required>
             </div>
-            <div id="loading-indicator" style="display: none;">
-                <!-- สัญลักษณ์หรือข้อความระหว่างส่งข้อมูล -->
-                กำลังส่งข้อมูล โปรดรอสักครู่...
-            </div>
+           <div id="loading-popup" class="loading-popup" style="display: none;">
+    <div class="loading-content">
+        <!-- ข้อความหรือสัญลักษณ์แสดงการส่งข้อมูล -->
+        <p>กำลังส่งข้อมูล โปรดรอสักครู่...</p>
+    </div>
+</div>
             <br>
             <!-- Add iframe for displaying Google Maps -->
             <iframe id="mapIframe" class="p-2" width="100%" height="240" frameborder="0" style="border:0;"
@@ -247,8 +272,8 @@ function submitForm() {
         return;
     }
 
-    // แสดง loading indicator
-    document.getElementById('loading-indicator').style.display = 'block';
+    // แสดง popup ระหว่างส่งข้อมูล
+    document.getElementById('loading-popup').style.display = 'flex';
 
     // เริ่มกระบวนการส่งข้อมูล
     let spt = preview.src.split("base64,")[1];
@@ -272,15 +297,15 @@ function submitForm() {
     })
     .then(response => response.text())
     .then(data => {
-        // ซ่อน loading indicator เมื่อส่งข้อมูลเสร็จสิ้น
-        document.getElementById('loading-indicator').style.display = 'none';
+        // ซ่อน popup เมื่อส่งข้อมูลเสร็จสิ้น
+        document.getElementById('loading-popup').style.display = 'none';
 
         alert('บันทึกข้อมูลของคุณเรียบร้อย!');
         sendFlexMessage();
     })
     .catch(error => {
-        // ซ่อน loading indicator เมื่อเกิดข้อผิดพลาด
-        document.getElementById('loading-indicator').style.display = 'none';
+        // ซ่อน popup เมื่อเกิดข้อผิดพลาด
+        document.getElementById('loading-popup').style.display = 'none';
 
         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล โปรดลองอีกครั้ง');
         console.error(error);
