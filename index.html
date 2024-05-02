@@ -134,6 +134,10 @@
                 <input type="hidden" id="longitudeInput" name="longitudeInput">
                 <input type="hidden" id="fullAddressInput" name="fullAddressInput" required>
             </div>
+            <div id="loading-indicator" style="display: none;">
+                <!-- สัญลักษณ์หรือข้อความระหว่างส่งข้อมูล -->
+                กำลังส่งข้อมูล โปรดรอสักครู่...
+            </div>
             <br>
             <!-- Add iframe for displaying Google Maps -->
             <iframe id="mapIframe" class="p-2" width="100%" height="240" frameborder="0" style="border:0;"
@@ -230,20 +234,23 @@ function checkPictureAndNextStep() {
     }
 }
 function submitForm() {
-    // Check if required fields are filled
+    // ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
     if (!columnBData.value || !roleInput.value || !jobInput.value || !latitudeInput.value || !longitudeInput.value) {
         alert('กรุณากรอกข้อมูลที่จำเป็น (*) ให้ครบถ้วน');
         return;
     }
-    
-    // Confirm submission
+
+    // ขอการยืนยันจากผู้ใช้ก่อนส่งข้อมูล
     const userConfirmed = confirm('คุณแน่ใจหรือไม่ที่ต้องการส่งข้อมูล?');
-    
+
     if (!userConfirmed) {
         return;
     }
 
-    // บันทึกข้อมูล
+    // แสดง loading indicator
+    document.getElementById('loading-indicator').style.display = 'block';
+
+    // เริ่มกระบวนการส่งข้อมูล
     let spt = preview.src.split("base64,")[1];
     let obj = {
         base64: spt,
@@ -258,17 +265,23 @@ function submitForm() {
         address: fullAddressInput.value,
         user: userId.value
     };
-    
+
     fetch(url, {
         method: "POST",
         body: JSON.stringify(obj),
     })
     .then(response => response.text())
     .then(data => {
+        // ซ่อน loading indicator เมื่อส่งข้อมูลเสร็จสิ้น
+        document.getElementById('loading-indicator').style.display = 'none';
+
         alert('บันทึกข้อมูลของคุณเรียบร้อย!');
         sendFlexMessage();
     })
     .catch(error => {
+        // ซ่อน loading indicator เมื่อเกิดข้อผิดพลาด
+        document.getElementById('loading-indicator').style.display = 'none';
+
         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล โปรดลองอีกครั้ง');
         console.error(error);
     });
