@@ -36,24 +36,26 @@
     <div class="mx-auto right-0 mt-5 w-full p-10">
         <div class=" flex justify-center items-center">
             <div class="space-y-16">
-                <div class="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110">
-                    <img class="relative object-cover w-full h-full rounded-xl" src="https://i.imgur.com/kGkSg1v.png">
-                    <div class="w-full px-8 absolute top-8">
+                <div class="w-96 h-56 m-auto bg-gray-900 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110">
+                    
+                    <div class="w-full px-8 absolute bottom-5">
                         <div class="flex justify-between">
                             <div class="">
                                 <p class="text-blue-300">
-                                    รหัสพนักงาน
+                                    ชื่อ สกุล
                                 </h1>
-                                <input type="text" class="input-field text-md  bg-white text-white bg-opacity-0 py-1" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
+                                <p class="font-medium tracking-more-wider">
+                                <input type="text" class="input-field  text-md bg-white text-white bg-opacity-0 py-1" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
+                            </p>
                             </div>
                             <img class="h-16 w-16 rounded-lg" id="columnGData" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"/>
                         </div>
                         <div class="pt-1">
                             <p class="text-blue-300">
-                                ชื่อ สกุล
+                                รหัสพนักงาน
                             </h1>
                             <p class="font-medium tracking-more-wider">
-                                <input type="text" class="input-field  text-md bg-white text-white bg-opacity-0 py-1" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
+                                <input type="text" class="input-field text-md  bg-white text-white bg-opacity-0 py-1" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
                             </p>
                         </div>
                         <div class="pt-6 pr-6">
@@ -92,83 +94,8 @@
                 
             </div>
         </div>
-        <div
-            class="p-8 max-w-sm mx-auto bg-gray-800 rounded-xl shadow-lg space-y-2 sm:p-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
-            <img class="h-32 w-32 rounded-xl border-4 border-white dark:border-gray-800 mx-auto my-4 float-left"
-                id="columnGData"
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="">
-            <div class="text-center space-y-2 sm:text-left">
-                <div class="space-y-2">
-                    <input type="text" class="input-field text-center text-md bg-white text-white bg-opacity-0 py-1"
-                        id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
-                    <input type="text" class="input-field text-md text-center bg-white text-white bg-opacity-0 py-1"
-                        id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
-                </div>
-                <input type="text"
-                    class="input-field text-md text-center bg-white bg-opacity-0 p-2 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 py-1 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
-                    id="roleInput" placeholder="รหัส พนักงาน" name="roleInput" required>
-            </div>
-        </div>
+   
 
-
-        <div class="mx-auto bg-white max-w-sm rounded-lg overflow-hidden shadow-sm">
-
-            <div class="divide-y divide-slate-700">
-                <Link href="/account/campaigns">
-                <a class="px-4 py-6 hover:bg-gray-100 flex">
-                    <div class="text-green-600">
-                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                            strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
-                            <path
-                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
-                    </div>
-                    <div class="pl-3">
-                        <p class="text-sm font-medium text-gray-800 leading-none">
-                            ลาพักร้อน
-                        </p>
-                        <p class="text-xs text-gray-500">N/A วัน</p>
-                    </div>
-                </a>
-                </Link>
-                <Link href="/account/campaigns">
-                <a class="px-4 py-6 hover:bg-gray-100 flex">
-                    <div class="text-green-600">
-                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                            strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
-                            <path
-                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
-                    </div>
-                    <div class="pl-3">
-                        <p class="text-sm font-medium text-gray-800 leading-none">
-                            ลากิจ
-                        </p>
-                        <p class="text-xs text-gray-500">N/A วัน</p>
-                    </div>
-                </a>
-                </Link>
-                <div class="">
-                    <Link href="/account/campaigns">
-                    <a class="px-4 py-6 hover:bg-gray-100 flex">
-                        <div class="text-green-600">
-                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                                strokeWidth="1" viewBox="0 0 24 24" class="w-5 h-5">
-                                <path
-                                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                            </svg>
-                        </div>
-                        <div class="pl-3">
-                            <p class="text-sm font-medium text-gray-800 leading-none">
-                                ลาป่วย
-                            </p>
-                            <p class="text-xs text-gray-500">N/A วัน</p>
-                        </div>
-                    </a>
-                    </Link>
-                </div>
-            </div>
-        </div>
     </div>
     <div id="parentDiv" style="display: none;">
         <input type="text" id="displayName" name="displayName" style="visibility: visible;">
