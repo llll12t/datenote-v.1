@@ -15,6 +15,7 @@
     }
 
     table {
+        border-radius: 5px;
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
@@ -23,13 +24,16 @@
 
     td,
     th {
-        border: 1px solid #263585;
         text-align: left;
         padding: 8px;
         width: 25%;
     }
+    tr{
+        border-bottom: 1px solid #d7d6d6;
+    }
 
     tr:nth-child(even) {
+        border-bottom: 1px solid black;
         background-color: #ffffff;
         font-size: 0.7rem;
     }
@@ -40,7 +44,7 @@
     }
 
     .headertable {
-        background-color: #455089;
+        background-color: #000000;
         color: white;
     }
 
@@ -64,7 +68,8 @@
     }
 
     #pagination-controls button.active {
-        background-color: #7d8ad5;
+        background-color: #000000;
+        border-radius: 5px;
         color: white;
     }
 </style>
@@ -74,9 +79,9 @@
     const itemsPerPage = 20; // Number of items to display per page
     let currentPage = 1;
 
-    window.onload = function () {
-        initializeLiff(),getUserProfile();
-    };
+    // window.onload = function () {
+    //     initializeLiff(),getUserProfile();
+    // };
 
     async function initializeLiff() {
         await liff.init({ liffId: '2002290922-yOznjZkQ' }); // Replace with your LIFF ID
@@ -301,7 +306,7 @@ document.getElementById('userId').addEventListener('input', () => {
     <div class="card">
         <input type="text" id="userId" name="userId" value="userID"  style="color: rgb(255, 255, 255);" />
         <br>
-        <table style="background-color:#455089;color: white;">
+        <table style="background-color:black;color: white;">
             <td>ชื่อ</td>
             <td>รหัสพนักงาน</td>
         </table>
