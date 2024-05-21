@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Export In-Out v2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+        .text-green {
+            color:#00cf00;
+            font-weight: bold;
+            text-align: center;
+        }
+        .text-red {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+        .text-yellow {
+            color: yellow;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 container mx-auto text-xs right-0 mt-5 w-full p-5">
+    <!-- Rows per page select -->
+    <div class="bg-white">
+        <div>
+            <main class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+                    <h1 class="text-4xl font-bold tracking-tight text-gray-900">
+                        THCG H
+                    </h1>
+
+                    <div class="flex items-center">
+                        <div class="relative inline-block text-left">
+                            <div class="flex justify-center mt-4">
+                                <div class="flex justify-center">
+                                    <button id="sortDescBtn"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l focus:outline-none focus:shadow-outline">
+                                        เรียงจากล่าสุด
+                                    </button>
+                                    <button id="sortAscBtn"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline">
+                                        เรียงจากเก่าสุด
+                                    </button>
+                                </div>
+                                <label for="rowsPerPage" class="mr-5"></label>
+                                <select id="rowsPerPage"
+                                    class="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="15">15</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section aria-labelledby="products-heading" class="pb-24 pt-6">
+                    <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                        <!-- Filters -->
+                        <div>
+                            <div class="col-span-full">
+                                <label for="filterB"
+                                    class="block text-sm font-medium leading-6 text-gray-900">ค้นหาชื่อ</label>
+                                <div class="mt-2">
+                                    <input type="text" name="Name" id="filterB" autocomplete="street-address"
+                                        class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                </div>
+                            </div>
+                            <div class="col-span-full">
+                                <label for="filterC"
+                                    class="block text-sm font-medium leading-6 text-gray-900">รหัสพนักงาน</label>
+                                <div class="mt-2">
+                                    <input type="text" name="number" id="filterC" autocomplete="street-address"
+                                        class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                </div>
+                            </div>
+                            <div class="mt-5 space-y-5">
+                                <fieldset>
+                                    <legend class="text-sm font-semibold leading-6 text-gray-900">
+                                        บันทึก
+                                    </legend>
+                                    <div class="mt-3 space-y-6">
+                                        <div class="relative flex gap-x-3">
+                                            <div class="flex h-6 items-center">
+                                                <input id="filterIn" type="checkbox"
+                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                    checked />
+                                            </div>
+                                            <div class="text-sm leading-6">
+                                                <label for="filterIn" class="font-medium text-gray-900">เข้างาน</label>
+                                            </div>
+                                        </div>
+                                        <div class="relative flex gap-x-3">
+                                            <div class="flex h-6 items-center">
+                                                <input id="filterDuring" name="filterDuring" type="checkbox"
+                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                    checked />
+                                            </div>
+                                            <div class="text-sm leading-6">
+                                                <label for="filterDuring"
+                                                    class="font-medium text-gray-900">ระหว่างวัน</label>
+                                            </div>
+                                        </div>
+                                        <div class="relative flex gap-x-3">
+                                            <div class="flex h-6 items-center">
+                                                <input id="filterOut" name="filterOut" type="checkbox"
+                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                    checked />
+                                            </div>
+                                            <div class="text-sm leading-6">
+                                                <label for="filterOut" class="font-medium text-gray-900">ออกงาน</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="bg-gray-100 p-8 my-5">
+                                <div class="col-span-full">
+                                    <label for="filterB"
+                                        class="block text-sm font-medium leading-6 text-gray-900">วันที่เริ่มต้น</label>
+                                    <div class="mt-2">
+                                        <input type="datetime-local" id="startDate"
+                                            class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    </div>
+                                </div>
+                                <div class="col-span-full">
+                                    <label for="filterB"
+                                        class="block text-sm font-medium leading-6 text-gray-900">วันที่สิ้นสุด</label>
+                                    <div class="mt-2">
+                                        <input type="datetime-local" id="endDate"
+                                            class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border-b border-t border-gray-200 py-6">
+                                <!-- Export button -->
+                                <div class="flex justify-center">
+                                    <button id="exportBtn"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        Export to TXT
+                                    </button>
+                                </div>
+                            </div>
+                            <ul role="list"
+                                class="space-y-4 pt-24 border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                                <li>
+                                    <a href="https://docs.google.com/spreadsheets/d/1gErfBELM6hSGTqx0xapkAfdhRjZ_BK7zhXMdRcLWm2w/edit#gid=0">Google sheet</a>
+                                </li>
+                                <li>
+                                    <a href="https://thcgh2023.github.io/Check-in-out/export">export old version</a>
+                                </li>
+                                <li>
+                                    <a href="#">แจ้งปัญหา</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Product grid -->
+                        <div class="lg:col-span-3">
+                            <table class="table-auto w-full mt-4">
+                                <thead>
+                                    <tr>
+                                        <!-- Add your column headers here -->
+                                        <th class="px-4 py-2">รูปภาพ</th>
+                                        <th class="px-4 py-2">ชื่อ-สกุล</th>
+                                        <th class="px-4 py-2">รหัส</th>
+                                        <th class="px-4 py-2">บันทึก</th>
+                                        <th class="px-4 py-2">หมายเหตุ</th>
+                                        <th class="px-4 py-2">วัน/เวลา</th>
+                                        <th class="px-4 py-2">ที่อยู่</th>
+                                        <!-- Add more headers if needed -->
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody"></tbody>
+                            </table>
+                            <!-- ปุ่มควบคุมการนำทาง -->
+                            <div class="flex justify-center mt-4">
+                                <button id="prevPageBtn"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l focus:outline-none focus:shadow-outline">
+                                    Previous
+                                </button>
+                                <span id="paginationText" class="bg-gray-200 text-gray-800 font-bold py-2 px-4"></span>
+                                <button id="nextPageBtn"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <!-- รวม jQuery และ Moment.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+       $(document).ready(function () {
+    const SPREADSHEET_ID = "1gErfBELM6hSGTqx0xapkAfdhRjZ_BK7zhXMdRcLWm2w";
+    const API_KEY = "AIzaSyAHc1bZMPXE9NehuqgmjuWPsXpGds9wUCE";
+    const sheetName = "main"; // เปลี่ยนเป็นชื่อ sheet ของคุณ
+
+    const googleSheetsUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${sheetName}?key=${API_KEY}`;
+
+    fetch(googleSheetsUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            // กำหนดตัวแปรสำหรับใช้ในฟังก์ชันต่าง ๆ
+            const tableBody = $("#tableBody");
+            const rowsPerPageSelect = $("#rowsPerPage");
+            const filterB = $("#filterB");
+            const filterC = $("#filterC");
+            const filterIn = $("#filterIn"); // New
+            const filterDuring = $("#filterDuring"); // New
+            const filterOut = $("#filterOut"); // New
+            const paginationText = $("#paginationText");
+            let currentPage = 1;
+            let rowsPerPage = parseInt(rowsPerPageSelect.val());
+            const totalRows = data.values.length;
+            let totalPages = Math.ceil(totalRows / rowsPerPage);
+            let filteredData = [];
+
+            // Get references to the new date input fields
+            const startDateInput = $("#startDate");
+            const endDateInput = $("#endDate");
+
+            // Add event handlers to filter data when date range changes
+            startDateInput.on("change", filterData);
+            endDateInput.on("change", filterData);
+
+            // Modify the filterData function to include date filtering
+            function filterData() {
+                // Get the input values from the date fields and convert them to Date objects
+                const filterValueB = filterB.val().toLowerCase();
+                const filterValueC = filterC.val().toLowerCase();
+                const filterValueIn = filterIn.prop("checked");
+                const filterValueDuring = filterDuring.prop("checked");
+                const filterValueOut = filterOut.prop("checked");
+                const startDate = new Date(startDateInput.val());
+                const endDate = new Date(endDateInput.val());
+
+                // Filter the data based on the criteria
+                filteredData = data.values.filter((row) => {
+                    const colB = row[1].toLowerCase();
+                    const colC = row[2].toLowerCase();
+                    const colD = row[3].toLowerCase();
+                    const colF = row[5]; // Assuming column F is at index 5
+
+                    // Convert colF date from string to Date object
+                    const dateColF = moment(colF, "DD/MM/YYYY HH:mm").toDate();
+
+                    // Check if date is within the specified range
+                    const isDateInRange =
+                        (isNaN(startDate.getTime()) || dateColF >= startDate) &&
+                        (isNaN(endDate.getTime()) || dateColF <= endDate);
+
+                    // Check if the data meets the specified filters
+                    const isNameMatch = colB.includes(filterValueB);
+                    const isCodeMatch = colC.includes(filterValueC);
+                    const isStatusMatch =
+                        (filterValueIn && colD.includes("เข้างาน")) ||
+                        (filterValueDuring && colD.includes("ระหว่างวัน")) ||
+                        (filterValueOut && colD.includes("ออกงาน"));
+
+                    return (
+                        isNameMatch && isCodeMatch && isStatusMatch && isDateInRange
+                    );
+                });
+
+                // เรียงข้อมูลตามวันที่ล่าสุด
+                sortData("desc");
+            }
+
+            // เรียงข้อมูลตามวันที่และเวลาในคอลัมน์ F
+            function sortData(direction) {
+                filteredData.sort((a, b) => {
+                    const dateA = moment(a[5], "DD/MM/YYYY HH:mm").toDate();
+                    const dateB = moment(b[5], "DD/MM/YYYY HH:mm").toDate();
+                    if (direction === "desc") {
+                        return dateB - dateA; // เรียงจากมากไปน้อย (จากล่าสุดไปย้อนหลัง)
+                    } else {
+                        return dateA - dateB; // เรียงจากน้อยไปมาก (จากเก่าสุดไปขึ้น)
+                    }
+                });
+
+                // แสดงข้อมูล
+                displayData(0, rowsPerPage, filteredData);
+            }
+
+            // Event handlers for sorting buttons
+            $("#sortDescBtn").on("click", function () {
+                sortData("desc");
+            });
+
+            $("#sortAscBtn").on("click", function () {
+                sortData("asc");
+            });
+
+            // ฟังก์ชันแสดงข้อมูล
+function displayData(startIndex, endIndex, filteredData) {
+    tableBody.empty();
+
+    // แสดงข้อมูล
+    for (let i = startIndex; i < endIndex && i < filteredData.length; i++) {
+        const row = filteredData[i];
+        const tr = $("<tr>");
+
+        row.forEach((cell, index) => {
+            const td = $("<td>").addClass("border px-2 py-1");
+
+            // หากเป็นคอลัมน์ที่มีภาพ
+            if (index === 0) {
+                const img = $("<img>")
+                    .attr("src", cell)
+                    .addClass("w-14 h-14 object-cover rounded");
+                td.append(img);
+            } else {
+                // ตั้งค่าคลาสสีตามเงื่อนไข
+                if (index === 3) { // Assuming column D (บันทึก) is at index 3
+                    if (cell.includes("เข้างาน")) {
+                        td.addClass("text-green");
+                    } else if (cell.includes("ออกงาน")) {
+                        td.addClass("text-red");
+                    } else if (cell.includes("ระหว่างวัน")) {
+                        td.addClass("text-yellow");
+                    }
+                }
+                td.text(cell);
+            }
+
+            tr.append(td);
+        });
+
+        tableBody.append(tr);
+    }
+
+    // อัปเดตข้อความในการควบคุมการนำทาง
+    const currentPage = Math.ceil(startIndex / rowsPerPage) + 1;
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    paginationText.text(`Page ${currentPage} of ${totalPages}`);
+}
+
+
+            // ฟังก์ชันควบคุมการนำทาง
+            function prevPage() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    const startIndex = (currentPage - 1) * rowsPerPage;
+                    const endIndex = startIndex + rowsPerPage;
+                    displayData(startIndex, endIndex, filteredData);
+                }
+            }
+
+            function nextPage() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    const startIndex = (currentPage - 1) * rowsPerPage;
+                    const endIndex = startIndex + rowsPerPage;
+                    displayData(startIndex, endIndex, filteredData);
+                }
+            }
+
+            function changeRowsPerPage() {
+                rowsPerPage = parseInt(rowsPerPageSelect.val());
+                totalPages = Math.ceil(totalRows / rowsPerPage);
+                currentPage = 1; // เริ่มที่หน้าแรก
+                filterData();
+            }
+
+            // ผูกเหตุการณ์กับฟังก์ชันต่าง ๆ
+            $("#prevPageBtn").on("click", prevPage);
+            $("#nextPageBtn").on("click", nextPage);
+            rowsPerPageSelect.on("change", changeRowsPerPage);
+            filterB.on("input", filterData);
+            filterC.on("input", filterData);
+            filterIn.on("change", filterData); // New
+            filterDuring.on("change", filterData); // New
+            filterOut.on("change", filterData); // New
+
+            // Export button event handler
+            $("#exportBtn").on("click", function () {
+                exportToTxt(filteredData);
+            });
+
+            // เริ่มต้นแสดงข้อมูล
+            filterData();
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+});
+
+// Export data to TXT file
+function exportToTxt(data) {
+    // Sort data by date (column F) in ascending order
+    const sortedData = data.slice().sort((a, b) => {
+        const dateA = moment(a[5], "DD/MM/YYYY HH:mm").toDate();
+        const dateB = moment(b[5], "DD/MM/YYYY HH:mm").toDate();
+        return dateA - dateB;
+    });
+
+    // Create a string to hold the data
+    let txtContent = "";
+
+    // Append column headers
+    txtContent += "รหัสที่เครื่อง\tวัน/เวลา\n";
+
+    // Loop through each row of data
+    sortedData.forEach((row) => {
+        // Only append column C and F
+        txtContent += row[2] + "\t" + row[5] + "\n";
+    });
+
+    // Create a Blob object containing the text
+    const blob = new Blob([txtContent], { type: "text/plain" });
+
+    // Create a temporary URL for the Blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a link element
+    const a = document.createElement("a");
+
+    // Set the filename
+    const firstData = sortedData[0][5];
+    const lastData = sortedData[sortedData.length - 1][5];
+    a.download = `Data_${firstData}_${lastData}.txt`;
+
+    a.href = url;
+
+    // Trigger the click event to download the file
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up by revoking the URL object
+    window.URL.revokeObjectURL(url);
+}
+
+    </script>
+</body>
+
+</html>
