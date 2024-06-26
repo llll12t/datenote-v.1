@@ -15,6 +15,7 @@
     <script>
         window.onload = function () {
             initializeLiff();
+            fetchData();
         };
 
         async function initializeLiff() {
@@ -30,7 +31,7 @@
             try {
                 const profile = await liff.getProfile();
                 document.getElementById('userId').value = profile.userId;
-                searchData();
+                // Removed call to searchData() here
             } catch (error) {
                 console.error('Error getting profile data:', error);
             }
@@ -101,11 +102,6 @@
 
             table.style.display = tableHidden ? 'none' : '';
         }
-
-        window.onload = function () {
-            initializeLiff();
-            fetchData();
-        };
     </script>
 </head>
 <body>
@@ -125,7 +121,7 @@
                     <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
                 </div>
                 <table id="data-table" style="visibility: visible;">
-                    <input type="text" id="userId" name="userId" oninput="searchData()"  />
+                    <input type="text" id="userId" name="userId" oninput="searchData()" />
                     <input type="text" id="columnAData" name="columnAData">
                 </table>
             </div>
