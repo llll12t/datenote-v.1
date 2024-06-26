@@ -33,8 +33,9 @@
         async function getUserProfile() {
             try {
                 const profile = await liff.getProfile();
-                document.getElementById('userId').value = profile.userId;
-                fetchData(profile.userId);
+                const userId = profile.userId;
+                document.getElementById('userId').value = userId;
+                fetchData(userId);
             } catch (error) {
                 console.error('Error getting profile data:', error);
             }
@@ -47,8 +48,9 @@
                     body: JSON.stringify({ action: 'fetchData', userId: userId })
                 });
                 const data = await response.json();
-                if (data.length > 0) {
-                    displayData(data[0]);
+                const row = data.find(row => row[0] === userId);
+                if (row) {
+                    displayData(row);
                 } else {
                     console.log('No data found for userId:', userId);
                 }
@@ -58,14 +60,10 @@
         }
 
         function displayData(row) {
-            if (row.length > 0) {
-                document.getElementById('columnAData').value = row[0] || '';
-                document.getElementById('columnBData').value = row[1] || '';
-                document.getElementById('roleInput').value = row[2] || '';
-                document.getElementById('columnDData').value = row[3] || '';
-            } else {
-                console.log('No data to display');
-            }
+            document.getElementById('columnAData').value = row[0] || '';
+            document.getElementById('columnBData').value = row[1] || '';
+            document.getElementById('roleInput').value = row[2] || '';
+            document.getElementById('columnDData').value = row[3] || '';
         }
     </script>
 </head>
