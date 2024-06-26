@@ -13,19 +13,25 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
-        window.onload = function () {
-            fetchData();
-            initializeLiff();
+        window.onload = async function () {
+            await fetchData();
+            await initializeLiff();
             searchData();
         };
+
         async function initializeLiff() {
-            await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
-            if (liff.isLoggedIn()) {
-                getUserProfile();
-            } else {
-                liff.login();
+            try {
+                await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
+                if (liff.isLoggedIn()) {
+                    getUserProfile();
+                } else {
+                    liff.login();
+                }
+            } catch (error) {
+                console.error('Error initializing LIFF:', error);
             }
         }
+
         async function getUserProfile() {
             try {
                 const profile = await liff.getProfile();
@@ -36,6 +42,7 @@
                 console.error('Error getting profile data:', error);
             }
         }
+
         async function fetchData() {
             try {
                 const response = await fetch('https://script.google.com/macros/s/AKfycbx8UxgdLUbIjz6L7VCpkLbce3XoOXr1qTpykTo_Cw9yr7cYb8hIXAV_QvNq6lCvEiDxFw/exec', {
@@ -48,6 +55,7 @@
                 console.error('Error fetching data:', error);
             }
         }
+
         function displayData(values) {
             const table = document.getElementById('data-table');
             table.innerHTML = ''; // Clear previous data
@@ -61,6 +69,7 @@
                 table.appendChild(tr);
             });
         }
+
         function searchData() {
             const searchInput = document.getElementById('userId');
             const filter = searchInput.value.toUpperCase();
@@ -74,7 +83,6 @@
                     const cellText = cells[j].textContent || cells[j].innerText;
                     if (cellText.toUpperCase().indexOf(filter) > -1) {
                         shouldDisplay = true;
-                        // Display data related to columns in the corresponding input fields
                         const columnADataInput = document.getElementById('columnAData');
                         const columnAData = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
                         columnADataInput.value = columnAData;
@@ -82,21 +90,19 @@
                         const columnBData = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
                         columnBDataInput.value = columnBData;
                         const roleInputInput = document.getElementById('roleInput');
-                        const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                        const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
                         roleInputInput.value = roleInput;
                         const columnDDataInput = document.getElementById('columnDData');
-                        const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                        const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
                         columnDDataInput.value = columnDData;
                         break;
                     }
                 }
                 rows[i].style.display = shouldDisplay ? '' : 'none';
-                // If at least one row matches, set the tableHidden flag to false
                 if (shouldDisplay) {
                     tableHidden = false;
                 }
             }
-            // Show or hide the table based on the tableHidden flag
             table.style.display = tableHidden ? 'none' : '';
         }
     </script>
@@ -105,15 +111,15 @@
     <div class="container buttom-content">
         <div id="step1">
             <div class="state p-2">
-                <div class="input-icons ">
+                <div class="input-icons">
                     <span class="material-symbols-outlined"> co_present </span>
                     <input type="text" class="input-field" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
                 </div>
-                <div class="input-icons ">
+                <div class="input-icons">
                     <span class="material-symbols-outlined">pin</span>
                     <input type="text" class="input-field" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput" required>
                 </div>
-                <div class="input-icons ">
+                <div class="input-icons">
                     <span class="material-symbols-outlined"> editor_choice </span>
                     <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
                 </div>
@@ -124,6 +130,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
