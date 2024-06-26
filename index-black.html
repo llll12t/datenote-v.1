@@ -31,7 +31,7 @@
             try {
                 const profile = await liff.getProfile();
                 document.getElementById('userId').value = profile.userId;
-                // Removed call to searchData() here
+                searchData();
             } catch (error) {
                 console.error('Error getting profile data:', error);
             }
