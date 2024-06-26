@@ -13,29 +13,33 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
-        // Utility function for debouncing
-        function debounce(func, wait) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
         window.onload = async function () {
-            await initializeLiff();
             await fetchData();
-            document.getElementById('userId').addEventListener('input', debounce(searchData, 300));
+            await initializeLiff();
+            searchData();
         };
 
         async function initializeLiff() {
             try {
-                await liff.init({ liffId: '2002290922-O7vx3Jj7' });
-                if (!liff.isLoggedIn()) {
+                await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
+                if (liff.isLoggedIn()) {
+                    getUserProfile();
+                } else {
                     liff.login();
                 }
             } catch (error) {
                 console.error('Error initializing LIFF:', error);
+            }
+        }
+
+        async function getUserProfile() {
+            try {
+                const profile = await liff.getProfile();
+                document.getElementById('userId').value = profile.userId;
+                document.getElementById('displayName').value = profile.displayName;
+                searchData();
+            } catch (error) {
+                console.error('Error getting profile data:', error);
             }
         }
 
@@ -67,35 +71,39 @@
         }
 
         function searchData() {
-            const searchInput = document.getElementById('userId').value.toUpperCase();
+            const searchInput = document.getElementById('userId');
+            const filter = searchInput.value.toUpperCase();
             const table = document.getElementById('data-table');
             const rows = table.getElementsByTagName('tr');
-
+            let tableHidden = true; // Assume the table is initially hidden
             for (let i = 0; i < rows.length; i++) {
                 const cells = rows[i].getElementsByTagName('td');
-                let match = false;
-
+                let shouldDisplay = false;
                 for (let j = 0; j < cells.length; j++) {
                     const cellText = cells[j].textContent || cells[j].innerText;
-                    if (cellText.toUpperCase().includes(searchInput)) {
-                        match = true;
+                    if (cellText.toUpperCase().indexOf(filter) > -1) {
+                        shouldDisplay = true;
+                        const columnADataInput = document.getElementById('columnAData');
+                        const columnAData = rows[i].getElementsByTagName('td')[0].textContent || rows[i].getElementsByTagName('td')[0].innerText;
+                        columnADataInput.value = columnAData;
+                        const columnBDataInput = document.getElementById('columnBData');
+                        const columnBData = rows[i].getElementsByTagName('td')[1].textContent || rows[i].getElementsByTagName('td')[1].innerText;
+                        columnBDataInput.value = columnBData;
+                        const roleInputInput = document.getElementById('roleInput');
+                        const roleInput = rows[i].getElementsByTagName('td')[2].textContent || rows[i].getElementsByTagName('td')[2].innerText;
+                        roleInputInput.value = roleInput;
+                        const columnDDataInput = document.getElementById('columnDData');
+                        const columnDData = rows[i].getElementsByTagName('td')[3].textContent || rows[i].getElementsByTagName('td')[3].innerText;
+                        columnDDataInput.value = columnDData;
                         break;
                     }
                 }
-
-                rows[i].style.display = match ? '' : 'none';
-                if (match) {
-                    updateInputFields(rows[i]);
+                rows[i].style.display = shouldDisplay ? '' : 'none';
+                if (shouldDisplay) {
+                    tableHidden = false;
                 }
             }
-        }
-
-        function updateInputFields(row) {
-            const columns = row.getElementsByTagName('td');
-            document.getElementById('columnAData').value = columns[0].textContent || '';
-            document.getElementById('columnBData').value = columns[1].textContent || '';
-            document.getElementById('roleInput').value = columns[2].textContent || '';
-            document.getElementById('columnDData').value = columns[3].textContent || '';
+            table.style.display = tableHidden ? 'none' : '';
         }
     </script>
 </head>
@@ -104,7 +112,7 @@
         <div id="step1">
             <div class="state p-2">
                 <div class="input-icons">
-                    <span class="material-symbols-outlined">co_present</span>
+                    <span class="material-symbols-outlined"> co_present </span>
                     <input type="text" class="input-field" id="columnBData" placeholder="ชื่อ - สกุล" name="columnBData" required>
                 </div>
                 <div class="input-icons">
@@ -112,12 +120,13 @@
                     <input type="text" class="input-field" id="roleInput" placeholder="รหัส พนักงาน" name="roleInput" required>
                 </div>
                 <div class="input-icons">
-                    <span class="material-symbols-outlined">editor_choice</span>
+                    <span class="material-symbols-outlined"> editor_choice </span>
                     <input type="text" class="input-field" id="columnDData" placeholder="ตำแหน่ง" name="columnDData" required>
                 </div>
-                <input type="text" id="userId" name="userId" placeholder="ค้นหา" style="visibility: visible;" />
-                <table id="data-table" style="visibility: visible;"></table>
-                <input type="hidden" id="columnAData" name="columnAData">
+                   <table id="data-table" style="visibility: visible;">
+                    <input type="text" id="userId" name="userId" oninput="searchData()" style="visibility: visible;" />
+                    <input type="text" id="columnAData" name="columnAData" style="display: none;"/>
+                </table> 
             </div>
         </div>
     </div>
