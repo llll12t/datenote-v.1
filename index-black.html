@@ -43,9 +43,13 @@
                     body: JSON.stringify({ action: 'fetchDataByUserId', userId })
                 });
                 const data = await response.json();
-                if (data.length > 0) {
-                    const [record] = data;
-                    displayUserData(record);
+                if (data && data.length > 0) {
+                    const record = data.find(row => row[0] === userId);
+                    if (record) {
+                        displayUserData(record);
+                    } else {
+                        alert('ไม่พบข้อมูลผู้ใช้');
+                    }
                 } else {
                     alert('ไม่พบข้อมูลผู้ใช้');
                 }
