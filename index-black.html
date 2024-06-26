@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>บันทึกเวลา</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
@@ -16,8 +14,7 @@
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
         window.onload = function () {
-            initializeLiff();
-           
+            // initializeLiff();
         };
         async function initializeLiff() {
             await liff.init({ liffId: '2002290922-O7vx3Jj7' }); // Replace with your LIFF ID
@@ -32,7 +29,6 @@
                 const profile = await liff.getProfile();
                 document.getElementById('userId').value = profile.userId;
                 document.getElementById('displayName').value = profile.displayName;
-                fetchData();
                 searchData();
             } catch (error) {
                 console.error('Error getting profile data:', error);
@@ -126,6 +122,11 @@
             </div>
         </div>
     </div>
-
+    <script>
+        window.onload = function() {
+            // initializeLiff();
+            fetchData();
+        };
+    </script>
 </body>
 </html>
