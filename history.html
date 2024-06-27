@@ -109,8 +109,7 @@
                 const profile = await liff.getProfile();
                 document.getElementById('userId').value = profile.userId;
 
-                // Trigger search when user ID is retrieved
-                fetchData(); // Fetch data from the Google Sheets
+                fetchData();
             } catch (error) {
                 console.error('Error getting profile data:', error);
             }
@@ -126,7 +125,7 @@
             try {
                 const response = await fetch(`https://script.google.com/macros/s/AKfycbx8UxgdLUbIjz6L7VCpkLbce3XoOXr1qTpykTo_Cw9yr7cYb8hIXAV_QvNq6lCvEiDxFw/exec?userId=${userId}`);
                 const data = await response.json();
-                const filteredData = data.filter(row => row.userID === userId); // Assuming 'userID' is the correct column name
+                const filteredData = data.filter(row => row.userID === userId);
                 buildTable('data-table', filteredData);
                 buildAdditionalTable('additional-table', filteredData);
             } catch (error) {
@@ -144,15 +143,15 @@
 
             reversedValues.slice(startIndex, endIndex).forEach(row => {
                 const tr = document.createElement('tr');
-                for (let cellIndex = 2; cellIndex <= 9; cellIndex++) { // Assuming 2 to 9 are the correct column indices
+                for (let cellIndex = 2; cellIndex <= 9; cellIndex++) {
                     const td = document.createElement('td');
                     td.textContent = row[cellIndex];
-                    const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11]; // Adjust these indices as per your data
+                    const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
                     if (hiddenColumns.includes(cellIndex)) {
                         td.style.display = 'none';
                     }
                     tr.appendChild(td);
-                });
+                }
                 table.appendChild(tr);
             });
 
@@ -164,7 +163,7 @@
             table.innerHTML = '';
             const row = values[0];
             const tr = document.createElement('tr');
-            for (let cellIndex = 6; cellIndex <= 7; cellIndex++) { // Assuming 6 and 7 are the correct column indices
+            for (let cellIndex = 6; cellIndex <= 7; cellIndex++) {
                 const td = document.createElement('td');
                 td.textContent = row[cellIndex];
                 tr.appendChild(td);
