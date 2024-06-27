@@ -98,51 +98,67 @@
             }
         }
 
-        function buildTable(tableId, values) {
-            const table = document.getElementById(tableId);
-            table.innerHTML = '';
+        function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
 
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const reversedValues = values.slice().reverse();
+            function formatTime(timeString) {
+                const date = new Date(timeString);
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
 
-            reversedValues.slice(startIndex, endIndex).forEach(row => {
-                const tr = document.createElement('tr');
-                tr.classList.add('border-b', 'hover:bg-gray-100');
-                
-                // เปลี่ยนสีของสถานะตามเงื่อนไข
-                const status = row[4];
-                const statusColorClass = status === 'เข้างาน' ? 'text-green-500' : status === 'ออกงาน' ? 'text-red-500' : 'text-gray-700';
+            function buildTable(tableId, values) {
+                const table = document.getElementById(tableId);
+                table.innerHTML = '';
 
-                // เพิ่มสถานะ
-                let td = document.createElement('td');
-                td.textContent = status;
-                td.classList.add('py-2', 'px-4', statusColorClass);
-                tr.appendChild(td);
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const reversedValues = values.slice().reverse();
 
-                // เพิ่มหมายเหตุ
-                td = document.createElement('td');
-                td.textContent = row[5];
-                td.classList.add('py-2', 'px-4');
-                tr.appendChild(td);
+                reversedValues.slice(startIndex, endIndex).forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('border-b', 'hover:bg-gray-100');
 
-                // เพิ่มวันที่
-                td = document.createElement('td');
-                td.textContent = row[6];
-                td.classList.add('py-2', 'px-4');
-                tr.appendChild(td);
+                    // เปลี่ยนสีของสถานะตามเงื่อนไข
+                    const status = row[4];
+                    const statusColorClass = status === 'เข้างาน' ? 'text-green-500' : status === 'ออกงาน' ? 'text-red-500' : 'text-gray-700';
 
-                // เพิ่มเวลา
-                td = document.createElement('td');
-                td.textContent = row[7];
-                td.classList.add('py-2', 'px-4');
-                tr.appendChild(td);
+                    // เพิ่มสถานะ
+                    let td = document.createElement('td');
+                    td.textContent = status;
+                    td.classList.add('py-2', 'px-4', statusColorClass);
+                    tr.appendChild(td);
 
-                table.appendChild(tr);
-            });
+                    // เพิ่มหมายเหตุ
+                    td = document.createElement('td');
+                    td.textContent = row[5];
+                    td.classList.add('py-2', 'px-4');
+                    tr.appendChild(td);
 
-            updatePaginationControls(values.length);
-        }
+                    // แปลงและเพิ่มวันที่
+                    td = document.createElement('td');
+                    td.textContent = formatDate(row[6]);
+                    td.classList.add('py-2', 'px-4');
+                    tr.appendChild(td);
+
+                    // แปลงและเพิ่มเวลา
+                    td = document.createElement('td');
+                    td.textContent = formatTime(row[7]);
+                    td.classList.add('py-2', 'px-4');
+                    tr.appendChild(td);
+
+                    table.appendChild(tr);
+                });
+
+                updatePaginationControls(values.length);
+            }
+
 
         function updatePaginationControls(totalItems) {
             const totalPages = Math.ceil(totalItems / itemsPerPage);
