@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประวัติการบันทึก</title>
-    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <style>
         input {
             border: 1px solid white;
@@ -62,17 +61,6 @@
 </head>
 <body>
     <div class="card">
-        <input type="text" id="userId" name="userId" placeholder="Enter user ID" style="color: rgb(0, 0, 0);" />
-        <button onclick="fetchData()">Search</button>
-        <br>
-        <table style="background-color:black;color: white;">
-            <tr>
-                <th>ชื่อ</th>
-                <th>รหัสพนักงาน</th>
-            </tr>
-            <tbody id="additional-table" class="headertable2"></tbody>
-        </table>
-        <br>
         <table class="headertable">
             <tr>
                 <th>สถานะ</th>
@@ -86,48 +74,18 @@
     </div>
 
     <script>
-        let inputEventCounter = 0;
         const itemsPerPage = 20;
         let currentPage = 1;
 
         window.onload = function () {
-            initializeLiff();
+            fetchData();
         };
 
-        async function initializeLiff() {
-            await liff.init({ liffId: '2002290922-yOznjZkQ' }); // Replace with your LIFF ID
-
-            if (liff.isLoggedIn()) {
-                getUserProfile();
-            } else {
-                liff.login();
-            }
-        }
-
-        async function getUserProfile() {
-            try {
-                const profile = await liff.getProfile();
-                document.getElementById('userId').value = profile.userId;
-
-                fetchData();
-            } catch (error) {
-                console.error('Error getting profile data:', error);
-            }
-        }
-
         async function fetchData() {
-            const userId = document.getElementById('userId').value;
-            if (!userId) {
-                alert('Please enter a user ID');
-                return;
-            }
-
             try {
-                const response = await fetch(`https://script.google.com/macros/s/AKfycbx8UxgdLUbIjz6L7VCpkLbce3XoOXr1qTpykTo_Cw9yr7cYb8hIXAV_QvNq6lCvEiDxFw/exec?userId=${userId}`);
+                const response = await fetch(`https://script.google.com/macros/s/AKfycbx8UxgdLUbIjz6L7VCpkLbce3XoOXr1qTpykTo_Cw9yr7cYb8hIXAV_QvNq6lCvEiDxFw/exec`);
                 const data = await response.json();
-                const filteredData = data.filter(row => row.userID === userId);
-                buildTable('data-table', filteredData);
-                buildAdditionalTable('additional-table', filteredData);
+                buildTable('data-table', data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -143,32 +101,16 @@
 
             reversedValues.slice(startIndex, endIndex).forEach(row => {
                 const tr = document.createElement('tr');
-                for (let cellIndex = 2; cellIndex <= 9; cellIndex++) {
+                const columns = [2, 3, 4, 6, 7];
+                columns.forEach(colIndex => {
                     const td = document.createElement('td');
-                    td.textContent = row[cellIndex];
-                    const hiddenColumns = [0, 1, 2, 3, 8, 9, 10, 11];
-                    if (hiddenColumns.includes(cellIndex)) {
-                        td.style.display = 'none';
-                    }
+                    td.textContent = row[colIndex];
                     tr.appendChild(td);
-                }
+                });
                 table.appendChild(tr);
             });
 
             updatePaginationControls(values.length);
-        }
-
-        function buildAdditionalTable(tableId, values) {
-            const table = document.getElementById(tableId);
-            table.innerHTML = '';
-            const row = values[0];
-            const tr = document.createElement('tr');
-            for (let cellIndex = 6; cellIndex <= 7; cellIndex++) {
-                const td = document.createElement('td');
-                td.textContent = row[cellIndex];
-                tr.appendChild(td);
-            }
-            table.appendChild(tr);
         }
 
         function updatePaginationControls(totalItems) {
