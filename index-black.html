@@ -15,7 +15,7 @@
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
        window.onload = async function () {
-            await initializeLiff();
+             await initializeLiff();
         };
 
         async function initializeLiff() {
@@ -159,8 +159,8 @@
                 <br>
                 <center><img id="preview" width="80%" height="auto" alt="" required></center>
                 <div class="flex justify-center space-x-4 mb-4 pt-6">
-                    <button class="w-full text-center py-2 px-4 rounded-lg btn-yellow" id="start-camera-btn">เริ่มเปิดกล้อง</button>
-                    <button class="w-full text-center py-2 px-4 rounded-lg btn-green" id="capture-btn" disabled="">ถ่ายรูป</button>
+                    <button class="w-full text-center py-2 px-4 rounded-md btn-yellow" id="start-camera-btn">เริ่มเปิดกล้อง</button>
+                    <button class="w-full text-center py-2 px-4 rounded-md btn-green" id="capture-btn" disabled="">ถ่ายรูป</button>
                 </div>
                 </div>
                 <div class="input-group mb-4 py-4">
@@ -171,7 +171,7 @@
         <div id="step3" style="display: none;text-align: center;">
             <div class="submit">
                 <div class="p-2 mb-2">
-                    <button type="button" onclick="getLocation()"class="btn btn-map">กดเพื่อยืนยันที่อยู่ของคุณ</button>
+                    <button type="button" onclick="getLocation()"class="btn btn-map rounded-md">กดเพื่อยืนยันที่อยู่ของคุณ</button>
                 </div>
                 <div id="locationInfo" name="locationInfo">
                     <p id="latitude">Latitude: </p>
