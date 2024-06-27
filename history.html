@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประวัติการบันทึก</title>
     <style>
+        /* เพิ่ม CSS สำหรับการแสดงสถานะการโหลด */
+        #loading {
+            display: none;
+            text-align: center;
+        }
         input {
             border: 1px solid white;
         }
@@ -46,6 +51,7 @@
         }
         #pagination-controls {
             margin-top: 10px;
+            text-align: center; /* ปรับให้ปุ่ม pagination อยู่ตรงกลาง */
         }
         #pagination-controls button {
             margin: 0 5px;
@@ -57,17 +63,30 @@
             border-radius: 5px;
             color: white;
         }
+        /* เพิ่ม CSS สำหรับข้อมูลหลัก */
+        #main-info {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        #main-info div {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <input type="hidden" id="userId" name="userId" />
         <input type="hidden" id="displayName" name="displayName" />
+
+        <!-- ส่วนสำหรับแสดงข้อมูลหลัก -->
+        <div id="main-info">
+            <div><strong>ชื่อ:</strong> <span id="name-info"></span></div>
+            <div><strong>รหัสพนักงาน:</strong> <span id="employee-id-info"></span></div>
+        </div>
+
         <table class="headertable">
             <thead>
                 <tr>
-                    <th>ชื่อ</th>
-                    <th>รหัสพนักงาน</th>
                     <th>สถานะ</th>
                     <th>หมายเหตุ</th>
                     <th>วันที่</th>
@@ -77,6 +96,8 @@
             <tbody id="data-table"></tbody>
         </table>
         <div id="pagination-controls"></div>
+        <!-- แสดงสถานะการโหลด -->
+        <div id="loading">กำลังโหลด...</div>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
@@ -109,6 +130,7 @@
         }
 
         async function fetchData(userId) {
+            document.getElementById('loading').style.display = 'block'; // แสดงการโหลด
             try {
                 const response = await fetch(`https://script.google.com/macros/s/AKfycbx8UxgdLUbIjz6L7VCpkLbce3XoOXr1qTpykTo_Cw9yr7cYb8hIXAV_QvNq6lCvEiDxFw/exec`);
                 if (!response.ok) {
@@ -117,10 +139,19 @@
                 const data = await response.json();
                 console.log('Fetched data:', data); // Log fetched data to verify
                 const filteredData = data.filter(row => row[11] === userId); // Filter data by userId (column 11)
+                
+                // แสดงชื่อและรหัสพนักงานในส่วนข้อมูลหลัก
+                if (filteredData.length > 0) {
+                    document.getElementById('name-info').textContent = filteredData[0][2]; // ชื่อ (คอลัมน์ 2)
+                    document.getElementById('employee-id-info').textContent = filteredData[0][3]; // รหัสพนักงาน (คอลัมน์ 3)
+                }
+                
                 buildTable('data-table', filteredData);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                document.getElementById('data-table').innerHTML = '<tr><td colspan="6">Error fetching data. Please check the console for more details.</td></tr>';
+                document.getElementById('data-table').innerHTML = '<tr><td colspan="4">Error fetching data. Please check the console for more details.</td></tr>';
+            } finally {
+                document.getElementById('loading').style.display = 'none'; // ซ่อนการโหลด
             }
         }
 
@@ -134,8 +165,8 @@
 
             reversedValues.slice(startIndex, endIndex).forEach(row => {
                 const tr = document.createElement('tr');
-                const columns = [2, 3, 4, 5, 6, 7];
-                columns.forEach((colIndex, idx) => {
+                const columns = [4, 5, 6, 7]; // เปลี่ยนคอลัมน์เพื่อให้แสดงเฉพาะสถานะ, หมายเหตุ, วันที่, เวลา
+                columns.forEach(colIndex => {
                     const td = document.createElement('td');
                     td.textContent = row[colIndex];
                     tr.appendChild(td);
