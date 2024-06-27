@@ -2,102 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประวัติการบันทึก</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         /* เพิ่ม CSS สำหรับการแสดงสถานะการโหลด */
         #loading {
             display: none;
             text-align: center;
         }
-        input {
-            border: 1px solid white;
-        }
-        table {
-            border-radius: 5px;
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 0.8rem;
-        }
-        td, th {
-            text-align: left;
-            padding: 8px;
-            width: 25%;
-        }
-        tr {
-            border-bottom: 1px solid #d7d6d6;
-        }
-        tr:nth-child(even) {
-            border-bottom: 1px solid black;
-            background-color: #ffffff;
-            font-size: 0.7rem;
-        }
-        label {
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .headertable {
-            background-color: #ffffff;
-            color: rgb(0, 0, 0);
-        }
-        .headertable2 {
-            background-color: #FFF;
-            color: #000;
-        }
-        .card {
-            padding: 10px;
-        }
-        #pagination-controls {
-            margin-top: 10px;
-            text-align: center; /* ปรับให้ปุ่ม pagination อยู่ตรงกลาง */
-        }
-        #pagination-controls button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        #pagination-controls button.active {
-            background-color: #000000;
-            border-radius: 5px;
-            color: white;
-        }
-        /* เพิ่ม CSS สำหรับข้อมูลหลัก */
-        #main-info {
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-        #main-info div {
-            margin-bottom: 5px;
-        }
     </style>
 </head>
-<body>
-    <div class="card">
-        <input type="hidden" id="userId" name="userId" />
-        <input type="hidden" id="displayName" name="displayName" />
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <input type="hidden" id="userId" name="userId">
+            <input type="hidden" id="displayName" name="displayName">
 
-        <!-- ส่วนสำหรับแสดงข้อมูลหลัก -->
-        <div id="main-info">
-            <div><strong>ชื่อ:</strong> <span id="name-info"></span></div>
-            <div><strong>รหัสพนักงาน:</strong> <span id="employee-id-info"></span></div>
+            <!-- ส่วนสำหรับแสดงข้อมูลหลัก -->
+            <div id="main-info" class="mb-4">
+                <div class="mb-2"><strong>ชื่อ:</strong> <span id="name-info" class="font-medium text-lg"></span></div>
+                <div><strong>รหัสพนักงาน:</strong> <span id="employee-id-info" class="font-medium text-lg"></span></div>
+            </div>
+
+            <table class="min-w-full bg-white">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700 text-left">
+                        <th class="py-2 px-4">สถานะ</th>
+                        <th class="py-2 px-4">หมายเหตุ</th>
+                        <th class="py-2 px-4">วันที่</th>
+                        <th class="py-2 px-4">เวลา</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table" class="text-sm text-gray-600">
+                </tbody>
+            </table>
+            <div id="pagination-controls" class="mt-4 text-center"></div>
+            <!-- แสดงสถานะการโหลด -->
+            <div id="loading" class="text-center text-gray-600 mt-4">กำลังโหลด...</div>
         </div>
-
-        <table class="headertable">
-            <thead>
-                <tr>
-                    <th>สถานะ</th>
-                    <th>หมายเหตุ</th>
-                    <th>วันที่</th>
-                    <th>เวลา</th>
-                </tr>
-            </thead>
-            <tbody id="data-table"></tbody>
-        </table>
-        <div id="pagination-controls"></div>
-        <!-- แสดงสถานะการโหลด -->
-        <div id="loading">กำลังโหลด...</div>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
@@ -165,10 +108,12 @@
 
             reversedValues.slice(startIndex, endIndex).forEach(row => {
                 const tr = document.createElement('tr');
+                tr.classList.add('border-b', 'hover:bg-gray-100');
                 const columns = [4, 5, 6, 7]; // เปลี่ยนคอลัมน์เพื่อให้แสดงเฉพาะสถานะ, หมายเหตุ, วันที่, เวลา
                 columns.forEach(colIndex => {
                     const td = document.createElement('td');
                     td.textContent = row[colIndex];
+                    td.classList.add('py-2', 'px-4');
                     tr.appendChild(td);
                 });
                 table.appendChild(tr);
@@ -188,8 +133,9 @@
                     currentPage = i;
                     fetchData(document.getElementById('userId').value); // Re-fetch data for the specific user on page change
                 });
+                pageButton.classList.add('py-1', 'px-3', 'm-1', 'border', 'rounded');
                 if (i === currentPage) {
-                    pageButton.classList.add('active');
+                    pageButton.classList.add('bg-black', 'text-white');
                 }
                 paginationControls.appendChild(pageButton);
             }
